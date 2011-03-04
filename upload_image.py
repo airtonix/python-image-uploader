@@ -19,8 +19,6 @@ __application_version__ = "0.0.1dev"
 conf_path = assure_path( os.path.join( os.getenv("HOME"), '.config', __application_name__) )
 log_path = assure_path( os.path.join( os.getenv("HOME"), '.local','share', __application_name__,'logs') )
 
-configuration_file = assure_path( os.path.join(conf_path, "remote_hosts.conf") )
-
 log_file = logging.FileHandler( os.path.join(log_path,"debug.log") )
 log_formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 log_file.setFormatter(log_formatter)
@@ -56,7 +54,7 @@ if __name__ == "__main__" :
 			logger = logger,
 			uploader = upload_manager,
 			application_title = __application_name__,
-			application_logo = os.path.join(HEREPATH, "resources", "icons", "application_logo.png" ),
+			application_path = HEREPATH,
 			configuration_path = conf_path
 		)
 

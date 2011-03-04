@@ -6,43 +6,11 @@ import string
 import poster
 import logging
 import urllib2
-
+import ConfigParser
 
 
 class UploadManager:
-	hosts ={
-		"imagebin.org" : {
-			"default" : True,
-			"formdata" : {
-				"nickname" : "$username$",
-				"title" : "$title$",
-				"description" : "$title$",
-				"disclaimer_agree" : "Y",
-				"Submit" : "Submit",
-				"mode" : "add"
-			},
-			"imagefield" : "image",
-			"host_url" : "http://imagebin.org/",
-			"upload_url" : "index.php?page=add",
-			"needle" : r"""(?i)index.php\?mode=image&id=(?P<image_id>[0-9]+)""",
-			"show_url" : lambda id: "http://imagebin.org/%s" % id,
-			"file_rules" : lambda file: os.rename(file,file.replace("png","jpg")),
-		},
-
-		"localhost"	: {
-			"default" : False,
-			"formdata" : {
-				"user" : "$username$",
-			},
-			"imagefield" : "image",
-			"host_url" : "http://localhost:5000",
-			"upload_url" : "/upload_image",
-			"needle" : r""".*""",
-			"show_url" : lambda str: str,
-			"file_rules": lambda file: file,
-		}
-
-	}
+	settings = {}
 	template_tags = {
 		"username"		: lambda x,y: ''.join (random.choice (string.letters) for ii in range (len(y) + 1)),
 		"filename"		:	lambda x,y: os.path.abspath(x),
@@ -50,25 +18,41 @@ class UploadManager:
 	}
 	target_host = None
 
-	def __init__(self, files=None, logger = None):
+	def __init__(self, files=None, logger = None, configuration_path = None):
 		self.list_images = files
+		self.configuration_path = configuration_path
+
 		self.process_payload()
 		poster.streaminghttp.register_openers()
+
 		if logger :
 			self.logger = logger
 
+		self.logger.info("Loading configuration files")
+		self.load_config()
 		# find the default target host
-		for name, data in self.hosts.items():
-			if data["default"] :
-				self.target_host = data
-				break
+
+		for name, data in self.settings.items():
+			print name,data
+#			if data.get("host","default") :
+#				self.target_host = section
+#				break
+
+	def load_config(self):
+		config_path = self.configuration_path
+		for config_file in os.listdir(config_path):
+			self.logger.info("Loading configuration file : %s" % config_file)
+			if not config_file in self.settings.keys() :
+				config = ConfigParser.RawConfigParser()
+				config.read( os.path.join(config_path, config_file) )
+				self.settings[ config_file ] = config
 
 	####################
 	## Tools
-
-
 	def fill_template (self,query,file):
-		""" Function doc """
+		"""
+
+		"""
 		output = None
 		tags = self.template_tags
 		query = re.sub("\$","",query)
@@ -91,16 +75,24 @@ class UploadManager:
 			self.list_images[index] = absolute_path
 
 	def progress_callback(self, param, current, total):
+		"""
+			Used to update the progress bars,
+			usually called by the delegated object, which is the upload-manager
+		"""
 		if hasattr(param,'name') and param.name =="image" and self.item_process_callback :
 			if hasattr(param, "filename"):
-				self.logger.info("Uploading [ %s ] to %s [ %s/%s ]" % (param.filename, self.target_host['host_url'], current, total))
+				self.logger.info("Uploading [ %s ] to %s [ %s/%s ]" % (param.filename, self.target_host.get('host', 'host_url'), current, total))
 				self.item_process_callback(param.filename,current, total)
 
 	def deliver_payload(self, progress_callback = None, completed_callback=None):
 		"""
 			Begins the upload process
 		"""
-		self.logger.info("Beging payload delivery to remote host: %s, payload-items: %s" % (self.target_host['host_url'], str(self.list_images) ))
+		self.logger.info("Beging payload delivery to remote host: %s, payload-items: %s" % (
+				self.target_host.get('host', 'host_url'),
+				str(self.list_images)
+			)
+		)
 
 		self.item_process_callback = progress_callback
 		self.item_complete_callback = completed_callback
@@ -113,9 +105,9 @@ class UploadManager:
 		""" Function doc """
 		target = self.target_host
 
-		host = target["host_url"]
-		upload_url = "%s%s" % (host, target["upload_url"] )
-		data = target["formdata"].copy()
+		host = target("host","host_url")
+		upload_url = target("host","upload_url")
+		data = target._sections["form"].copy()
 
 		self.logger.info("Beginning upload of [ %s ] to [ %s ]" % (file_path,self.target_host))
 
@@ -145,7 +137,7 @@ class UploadManager:
 			image_id = match_obj.group('image_id')
 			if image_id != None :
 				self.logger.info("imageID : %s" % image_id)
-				url = target["show_url"](image_id)
+				url = target["show_url"] % image_id
 				return url
 			else :
 				self.logger.error("There was an error uploading the image.")

@@ -17,7 +17,6 @@ Where FILES is a space separated list of files (relative or absolute).
 
  not implemented yet
 
-
 ## Todo
 
 * convert configuration to a ConfigParser compatible format

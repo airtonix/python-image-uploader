@@ -1,4 +1,6 @@
 import sys
+import string
+import os
 
 from PyQt4 import QtGui
 from PyQt4 import QtCore
@@ -13,15 +15,15 @@ def SpawnInterfaceManager(**kwargs):
 class InterfaceManager(QtGui.QWidget):
 	payload_items = []
 
-	def __init__(self, uploader = None, logger = None, application_title=None, application_logo = None):
+	def __init__(self, uploader = None, logger = None, application_title=None, application_path = None, configuration_path=None):
 		super(InterfaceManager, self).__init__()
-		self.application_logo = application_logo
+		self.application_path = application_path
 		self.application_title = application_title
 		self.upload_manager = uploader
 		self.logger = logger
 		self.initialise_userinterface()
 		self.populate_payload()
-
+		self.configuration_path = configuration_path
 
 	def initialise_userinterface(self):
 		## create the main vertical box
@@ -30,17 +32,20 @@ class InterfaceManager(QtGui.QWidget):
 
 		vbox_header = QtGui.QVBoxLayout()
 		hbox_header = QtGui.QHBoxLayout()
-		if self.application_logo :
-			pixmap_header_logo = QtGui.QPixmap( self.application_logo )
-			label_header_logo = QtGui.QLabel(self)
-			label_header_logo.setPixmap( pixmap_header_logo )
-			hbox_header.addWidget( label_header_logo )
+
+		pixmap_header_logo = QtGui.QPixmap( os.path.join(self.application_path, "resources", "icons", "application_logo.png" ) )
+		label_header_logo = QtGui.QLabel(self)
+		label_header_logo.setPixmap( pixmap_header_logo )
+		hbox_header.addWidget( label_header_logo )
 
 		self.label_application_title = QtGui.QLabel()
 		self.label_application_title.setText( str( self.application_title ) )
 		hbox_header.addWidget( self.label_application_title )
 
-		button_config = QtGui.QPushButton("Start")
+
+		pixmap_config_icon = QtGui.QIcon( os.path.join(self.application_path, "resources", "icons", "config.png" ) )
+		button_config = QtGui.QPushButton()
+		button_config.setIcon(pixmap_config_icon )
 		self.connect(button_config, QtCore.SIGNAL('clicked()'), self.button_config_clicked )
 		hbox_header.addWidget(button_config)
 
@@ -52,13 +57,12 @@ class InterfaceManager(QtGui.QWidget):
 
 		vbox_main.addLayout( vbox_header )
 
-
 		vbox_host_chooser = QtGui.QVBoxLayout()
 		groupbox_host_chooser = QtGui.QGroupBox("Choose remote host")
 		groupbox_host_chooser.setFlat(True)
 		hbox_groupbox_items = QtGui.QHBoxLayout()
 		self.combo_host_chooser = QtGui.QComboBox(self)
-		self.populate_host_chooser(self.combo_host_chooser, [hostname for hostname,hostdata in self.upload_manager.hosts.items()] )
+		self.populate_host_chooser(self.combo_host_chooser, self.upload_manager.settings )
 		self.connect(self.combo_host_chooser, QtCore.SIGNAL('activated(QString)'), self.combo_host_chooser_activated)
 		hbox_groupbox_items.addWidget( self.combo_host_chooser )
 		groupbox_host_chooser.setLayout(hbox_groupbox_items)
@@ -95,7 +99,7 @@ class InterfaceManager(QtGui.QWidget):
 		pass
 
 	def button_config_clicked(self):
-		pass
+		self.config_interface = ConfigWindow(self)
 
 	def button_ok_clicked(self):
 		for item in self.payload_items :
@@ -159,9 +163,9 @@ class InterfaceManager(QtGui.QWidget):
 	def notify_bubble(self, icon, msg):
 		os.popen("notify-send --icon=%s %s" % (icon,msg) )
 
-	def populate_host_chooser(self, widget, hosts):
-		for host in hosts :
-			widget.addItem(host)
+	def populate_host_chooser(self, widget, settings):
+		for hostname, data in settings.items() :
+			widget.addItem( hostname.split(".")[0] )
 
 	def set_upload_manager(self, manager):
 		self.upload_manager = manager
@@ -190,7 +194,7 @@ class InterfaceManager(QtGui.QWidget):
 
 		label_payload_item_file = QtGui.QLabel(self)
 		string_payload_item = payload_item
-		print len(string_payload_item)
+
 		if len(string_payload_item)>48 :
 			string_payload_item = "%s ... %s" % (payload_item[:21], payload_item[-21:])
 		label_payload_item_file.setText( string_payload_item )
@@ -216,11 +220,42 @@ class InterfaceManager(QtGui.QWidget):
 
 
 class ConfigWindow(QtGui.QWidget):
-	def __init__(self, *args, **kwargs):
-		super(PayloadItemProgressBar, self).__init__(*args, **kwargs)
+	def __init__(self, parent=None):
+		super(PayloadItemProgressBar, self).__init__()
+		self.parent = parent
 
 	def initialise_userinterface(self):
-		pass
+		vbox_main = QtGui.QVBoxLayout()
+		vbox_main.addStretch(1)
+
+		hbox_hostname = QtGui.QHBoxLayout()
+		self.label_hostname = QtGui.QLabel("Hostname")
+		hbox_hostname.addWidget( self.label_hostname )
+		self.entry_hostname = QtGui.QLineEdit()
+		hbox_hostname.addWidget( self.entry_hostname )
+		hr = QtGui.QFrame()
+		hr.setFrameShape( QtGui.QFrame.HLine )
+		vbox_hostname.addWidget( hr )
+
+		hbox_default = QtGui.QHBoxLayout()
+		self.label_default = QtGui.QLabel("Default")
+		hbox_default.addWidget( self.label_default )
+		self.checkbox_default = QtGui.QCheckBox()
+		hbox_default.addWidget( self.entry_default )
+		hr = QtGui.QFrame()
+		hr.setFrameShape( QtGui.QFrame.HLine )
+		vbox_default.addWidget( hr )
+
+		hbox_default = QtGui.QHBoxLayout()
+		self.label_default = QtGui.QLabel("Default")
+		hbox_default.addWidget( self.label_default )
+		self.checkbox_default = QtGui.QCheckBox()
+		hbox_default.addWidget( self.entry_default )
+		hr = QtGui.QFrame()
+		hr.setFrameShape( QtGui.QFrame.HLine )
+		vbox_default.addWidget( hr )
+
+
 
 
 class PayloadItemProgressBar(QtGui.QProgressBar):
