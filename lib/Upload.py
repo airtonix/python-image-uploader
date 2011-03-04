@@ -87,7 +87,7 @@ class UploadManager:
 		"""
 		for index in range(0,len(self.list_images)) :
 			item = self.list_images[index]
-			absolute_path = os.path.abspath(item)
+			absolute_path = os.path.abspath( os.path.expanduser(item) )
 			self.list_images[index] = absolute_path
 
 	def progress_callback(self, param, current, total):

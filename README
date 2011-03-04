@@ -1,0 +1,29 @@
+# python-image-uploader
+
+* configurable remote hosts
+* works well with nautilus-actions
+
+## Setup
+
+## Usage
+
+### Uploading an image
+
+    upload_image.py --files FILES
+
+Where FILES is a space separated list of files (relative or absolute).
+
+### Configuring Remote Hosts
+
+ not implemented yet
+
+
+## Todo
+
+* convert configuration to a ConfigParser compatible format
+* read the config directory for configfiles (one per remote host)
+* create config GUI
+    * config gui should list available configurations in a comboeditbox
+        * changing the entry will mean saving it creates a new configuration file
+        * provide two buttons, save and delete
+

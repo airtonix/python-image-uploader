@@ -3,7 +3,6 @@ import sys
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 
-
 def SpawnInterfaceManager(**kwargs):
 	application_window = QtGui.QApplication([])
 	new_interface_manager = InterfaceManager(**kwargs)
@@ -14,24 +13,37 @@ def SpawnInterfaceManager(**kwargs):
 class InterfaceManager(QtGui.QWidget):
 	payload_items = []
 
-	def __init__(self, uploader = None, logger = None, application_title=None):
+	def __init__(self, uploader = None, logger = None, application_title=None, application_logo = None):
 		super(InterfaceManager, self).__init__()
+		self.application_logo = application_logo
 		self.application_title = application_title
 		self.upload_manager = uploader
 		self.logger = logger
-		self.initUI()
+		self.initialise_userinterface()
 		self.populate_payload()
 
-	def initUI(self):
+
+	def initialise_userinterface(self):
 		## create the main vertical box
 		vbox_main = QtGui.QVBoxLayout()
 		vbox_main.addStretch(1)
 
 		vbox_header = QtGui.QVBoxLayout()
 		hbox_header = QtGui.QHBoxLayout()
+		if self.application_logo :
+			pixmap_header_logo = QtGui.QPixmap( self.application_logo )
+			label_header_logo = QtGui.QLabel(self)
+			label_header_logo.setPixmap( pixmap_header_logo )
+			hbox_header.addWidget( label_header_logo )
+
 		self.label_application_title = QtGui.QLabel()
 		self.label_application_title.setText( str( self.application_title ) )
 		hbox_header.addWidget( self.label_application_title )
+
+		button_config = QtGui.QPushButton("Start")
+		self.connect(button_config, QtCore.SIGNAL('clicked()'), self.button_config_clicked )
+		hbox_header.addWidget(button_config)
+
 		vbox_header.addLayout( hbox_header )
 
 		hr = QtGui.QFrame()
@@ -66,7 +78,7 @@ class InterfaceManager(QtGui.QWidget):
 		self.connect(button_ok, QtCore.SIGNAL('clicked()'), self.button_ok_clicked )
 		hbox_footer.addWidget(button_ok)
 
-		button_cancel = QtGui.QPushButton("Cancel")
+		button_cancel = QtGui.QPushButton("Close")
 		self.connect(button_cancel, QtCore.SIGNAL('clicked()'), self.button_cancel_clicked )
 		hbox_footer.addWidget(button_cancel)
 		vbox_main.addLayout( hbox_footer )
@@ -80,6 +92,9 @@ class InterfaceManager(QtGui.QWidget):
 	##################
 	## Events
 	def combo_host_chooser_activated(self):
+		pass
+
+	def button_config_clicked(self):
 		pass
 
 	def button_ok_clicked(self):
@@ -159,17 +174,26 @@ class InterfaceManager(QtGui.QWidget):
 		"""
 			@payload_item is a string which represents the absolute path to the file
 		"""
+		self.logger.info("Creating user-interface widget row for payload item : %s " % payload_item)
 		hbox_payload_item = QtGui.QHBoxLayout()
 
 		pixmap_payload_thumbnail = QtGui.QPixmap( payload_item )
 		label_payload_thumbnail = QtGui.QLabel(self)
-		label_payload_thumbnail.setPixmap( pixmap_payload_thumbnail.scaledToWidth(96) )
+
+		if pixmap_payload_thumbnail.width() > 96 :
+			pixmap_payload_thumbnail = pixmap_payload_thumbnail.scaledToWidth(96)
+
+		label_payload_thumbnail.setPixmap( pixmap_payload_thumbnail )
 		hbox_payload_item.addWidget( label_payload_thumbnail )
 
 		vbox_payload_item_meta = QtGui.QVBoxLayout()
 
 		label_payload_item_file = QtGui.QLabel(self)
-		label_payload_item_file.setText( payload_item )
+		string_payload_item = payload_item
+		print len(string_payload_item)
+		if len(string_payload_item)>48 :
+			string_payload_item = "%s ... %s" % (payload_item[:21], payload_item[-21:])
+		label_payload_item_file.setText( string_payload_item )
 		vbox_payload_item_meta.addWidget( label_payload_item_file )
 
 		progress_payload_item = PayloadItemProgressBar(self)
@@ -190,12 +214,13 @@ class InterfaceManager(QtGui.QWidget):
 
 		self.vbox_payload.addLayout( hbox_payload_item )
 
-	def showDialog(self):
-		text, ok = QtGui.QInputDialog.getText(self, 'Input Dialog', 'Enter your name:')
-		if ok:
-			self.label.setText(str(text))
 
+class ConfigWindow(QtGui.QWidget):
+	def __init__(self, *args, **kwargs):
+		super(PayloadItemProgressBar, self).__init__(*args, **kwargs)
 
+	def initialise_userinterface(self):
+		pass
 
 
 class PayloadItemProgressBar(QtGui.QProgressBar):
