@@ -1,77 +1,20 @@
-import sys
-import string
-import os
 
-from PyQt4 import QtGui
-from PyQt4 import QtCore
 
-def SpawnInterfaceManager(**kwargs):
-	application_window = QtGui.QApplication([])
-	new_interface_manager = InterfaceManager(**kwargs)
-	new_interface_manager.show()
-	application_window.exec_()
-	return new_interface_manager
-
-class InterfaceManager(QtGui.QWidget):
+class UploadImagePreview(QtGui.QWidget):
+	"""
+		Preview Area, designated as the interface area where upload progress for
+		each image is displayed.
+		@ parent
+			the object for which this widget is attached.
+	"""
 	payload_items = []
-
-	def __init__(self, uploader = None, logger = None, application_title=None, application_path = None, configuration_path=None):
-		super(InterfaceManager, self).__init__()
-		self.application_path = application_path
-		self.application_title = application_title
-		self.upload_manager = uploader
-		self.logger = logger
+	def __init__(self, parent = None):
+		super(UploadImagePreview, self).__init__()
+		self = parent
 		self.initialise_userinterface()
 		self.populate_payload()
-		self.configuration_path = configuration_path
 
 	def initialise_userinterface(self):
-		## create the main vertical box
-		vbox_main = QtGui.QVBoxLayout()
-		vbox_main.addStretch(1)
-
-		vbox_header = QtGui.QVBoxLayout()
-		hbox_header = QtGui.QHBoxLayout()
-
-		pixmap_header_logo = QtGui.QPixmap( os.path.join(self.application_path, "resources", "icons", "application_logo.png" ) )
-		label_header_logo = QtGui.QLabel(self)
-		label_header_logo.setPixmap( pixmap_header_logo )
-		hbox_header.addWidget( label_header_logo )
-
-		self.label_application_title = QtGui.QLabel()
-		self.label_application_title.setText( str( self.application_title ) )
-		hbox_header.addWidget( self.label_application_title )
-
-
-		pixmap_config_icon = QtGui.QIcon( os.path.join(self.application_path, "resources", "icons", "config.png" ) )
-		button_config = QtGui.QPushButton()
-		button_config.setIcon(pixmap_config_icon )
-		self.connect(button_config, QtCore.SIGNAL('clicked()'), self.button_config_clicked )
-		hbox_header.addWidget(button_config)
-
-		vbox_header.addLayout( hbox_header )
-
-		hr = QtGui.QFrame()
-		hr.setFrameShape( QtGui.QFrame.HLine )
-		vbox_header.addWidget( hr )
-
-		vbox_main.addLayout( vbox_header )
-
-		vbox_host_chooser = QtGui.QVBoxLayout()
-		groupbox_host_chooser = QtGui.QGroupBox("Choose remote host")
-		groupbox_host_chooser.setFlat(True)
-		hbox_groupbox_items = QtGui.QHBoxLayout()
-		self.combo_host_chooser = QtGui.QComboBox(self)
-		self.populate_host_chooser(self.combo_host_chooser, self.upload_manager.settings )
-		self.connect(self.combo_host_chooser, QtCore.SIGNAL('activated(QString)'), self.combo_host_chooser_activated)
-		hbox_groupbox_items.addWidget( self.combo_host_chooser )
-		groupbox_host_chooser.setLayout(hbox_groupbox_items)
-		vbox_host_chooser.addWidget(groupbox_host_chooser)
-
-		hr = QtGui.QFrame( )
-		hr.setFrameShape( QtGui.QFrame.HLine )
-		vbox_host_chooser.addWidget(hr)
-		vbox_main.addLayout( vbox_host_chooser )
 
 		self.vbox_payload = QtGui.QVBoxLayout()
 		vbox_main.addLayout(self.vbox_payload)
@@ -89,38 +32,10 @@ class InterfaceManager(QtGui.QWidget):
 
 		# Add some finishing touches
 		self.setLayout( vbox_main )
-		self.setFocus()
-		self.setWindowTitle('Image Uploader')
 
 
 	##################
 	## Events
-	def combo_host_chooser_activated(self):
-		pass
-
-	def button_config_clicked(self):
-		self.config_interface = ConfigWindow(self)
-
-	def button_ok_clicked(self):
-		for item in self.payload_items :
-			widget = item['widget_progress']
-			if widget.timer.isActive():
-				self.logger.info("Stopping Widget %s.timer" % widget)
-				widget.timer.stop()
-#				widget.button.setText('Start')
-			else:
-				self.logger.info("Starting Widget %s.timer" % widget)
-				widget.timer.start(10, widget)
-#				widget.button.setText('Stop')
-
-		self.upload_manager.deliver_payload(
-			progress_callback = self.progress_callback,
-			completed_callback = self.completed_callback
-		)
-
-	def button_cancel_clicked(self):
-		self.close()
-
 	def get_payload_row(self, filename = None):
 		item_row = None
 
@@ -154,21 +69,9 @@ class InterfaceManager(QtGui.QWidget):
 
 	##################
 	## Methods
-	def start(self):
-		pass
-
-	def exit(self):
-		pass
 
 	def notify_bubble(self, icon, msg):
 		os.popen("notify-send --icon=%s %s" % (icon,msg) )
-
-	def populate_host_chooser(self, widget, settings):
-		for hostname, data in settings.items() :
-			widget.addItem( hostname.split(".")[0] )
-
-	def set_upload_manager(self, manager):
-		self.upload_manager = manager
 
 	def populate_payload(self):
 		for item in self.upload_manager.list_images :
@@ -221,8 +124,8 @@ class InterfaceManager(QtGui.QWidget):
 
 class ConfigWindow(QtGui.QWidget):
 	def __init__(self, parent=None):
-		super(PayloadItemProgressBar, self).__init__()
-		self.parent = parent
+		super(ConfigWindow, self).__init__()
+		self = parent
 
 	def initialise_userinterface(self):
 		vbox_main = QtGui.QVBoxLayout()
@@ -254,23 +157,4 @@ class ConfigWindow(QtGui.QWidget):
 		hr = QtGui.QFrame()
 		hr.setFrameShape( QtGui.QFrame.HLine )
 		vbox_default.addWidget( hr )
-
-
-
-
-class PayloadItemProgressBar(QtGui.QProgressBar):
-	def __init__(self, *args, **kwargs):
-		super(PayloadItemProgressBar, self).__init__(*args, **kwargs)
-		self.timer = QtCore.QBasicTimer()
-		self.step = 0
-
-	def set_step(self, value):
-		self.step = value
-
-	def timerEvent(self, event):
-		if self.step >= 100:
-			self.timer.stop()
-			return
-#		self.step = self.step + 1
-		self.setValue(self.step)
 

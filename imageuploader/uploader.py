@@ -10,7 +10,8 @@ import ConfigParser
 
 
 class UploadManager:
-	settings = {}
+	profiles = {}
+	files = []
 	template_tags = {
 		"username"		: lambda x,y: ''.join (random.choice (string.letters) for ii in range (len(y) + 1)),
 		"filename"		:	lambda x,y: os.path.abspath(x),
@@ -18,40 +19,29 @@ class UploadManager:
 	}
 	target_host = None
 
-	def __init__(self, files=None, logger = None, configuration_path = None):
-		self.list_images = files
-		self.configuration_path = configuration_path
+	def __init__(self, parent = None, files = None):
+		self.parent = parent
+		self.logger = self.parent.logger
+		self.files = self.process_payload(files)
 
-		self.process_payload()
 		poster.streaminghttp.register_openers()
-
-		if logger :
-			self.logger = logger
 
 		self.logger.info("Loading configuration files")
 		self.load_config()
+
 		# find the default target host
+		for name, data in self.profiles.items():
+			if data.has_section('host') and data.get('host', 'is_default'):
+				self.target_host = data
+				self.logger.info("Default Config is : %s" % data.get('host', 'name') )
+				break
 
-		for name, data in self.settings.items():
-			print name,data
-#			if data.get("host","default") :
-#				self.target_host = section
-#				break
-
-	def load_config(self):
-		config_path = self.configuration_path
-		for config_file in os.listdir(config_path):
-			self.logger.info("Loading configuration file : %s" % config_file)
-			if not config_file in self.settings.keys() :
-				config = ConfigParser.RawConfigParser()
-				config.read( os.path.join(config_path, config_file) )
-				self.settings[ config_file ] = config
 
 	####################
 	## Tools
 	def fill_template (self,query,file):
 		"""
-
+			Replaces placeholders with evaluated function results
 		"""
 		output = None
 		tags = self.template_tags
@@ -64,15 +54,34 @@ class UploadManager:
 
 	####################
 	## Methods
-	def process_payload(self):
+
+	def load_config(self):
+		config_path = self.parent.configuration_path
+		for config_file in os.listdir(config_path):
+			self.logger.info("Loading configuration file : %s" % config_file)
+			if not config_file in self.profiles.keys() :
+				config = ConfigParser.RawConfigParser()
+				config.read( os.path.join(config_path, config_file) )
+				self.profiles[ config_file ] = config
+
+
+	def process_payload(self, payload_items = None):
 		"""
 			Iterates through self.list_images and does the following :
 				1. converts the path to an absolute path
 		"""
-		for index in range(0,len(self.list_images)) :
-			item = self.list_images[index]
-			absolute_path = os.path.abspath( os.path.expanduser(item) )
-			self.list_images[index] = absolute_path
+		if not payload_items:
+			return None
+
+		output = []
+		files_count = len(payload_items)
+		if files_count > 0:
+			for index in range(0, files_count ) :
+				item = payload_items[index]
+				absolute_path = os.path.abspath( os.path.expanduser(item) )
+				output.append(absolute_path)
+
+		return output
 
 	def progress_callback(self, param, current, total):
 		"""
