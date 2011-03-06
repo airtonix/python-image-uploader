@@ -36,36 +36,7 @@ class UploadImagePreview(QtGui.QWidget):
 
 	##################
 	## Events
-	def get_payload_row(self, filename = None):
-		item_row = None
 
-		for item in self.payload_items :
-			if item['file'] == filename :
-				item_row = item
-
-			if item_row :
-				return item_row
-
-		return None
-
-	def completed_callback(self, name, return_data):
-		widget_row = self.get_payload_row(filename = name)
-		self.update_progress_widget( widget_row['widget_progress'], 100)
-		widget_row['widget_remoteurl'].setText(return_data)
-
-	def progress_callback(self, name, current, total):
-		widget_row = self.get_payload_row(filename = name)
-		if widget_row :
-			widget_progress = widget_row['widget_progress']
-			step= int( float(current)/float(total)*100 )
-			self.update_progress_widget(widget_progress, step)
-			self.logger.info("Updating Widget %s [%s/%s](%s)" % (widget_progress, current, total, step ))
-
-	def update_progress_widget(self, widget, value):
-		if value > 100 :
-			value = 100
-		widget.step = value
-		widget.setValue( value )
 
 	##################
 	## Methods
@@ -103,9 +74,7 @@ class UploadImagePreview(QtGui.QWidget):
 		label_payload_item_file.setText( string_payload_item )
 		vbox_payload_item_meta.addWidget( label_payload_item_file )
 
-		progress_payload_item = PayloadItemProgressBar(self)
-		progress_payload_item.setRange(0, 100)
-		progress_payload_item.setValue(0)
+
 		vbox_payload_item_meta.addWidget( progress_payload_item )
 
 		entry_payload_remoteurl = QtGui.QLineEdit(self)
@@ -120,41 +89,4 @@ class UploadImagePreview(QtGui.QWidget):
 		})
 
 		self.vbox_payload.addLayout( hbox_payload_item )
-
-
-class ConfigWindow(QtGui.QWidget):
-	def __init__(self, parent=None):
-		super(ConfigWindow, self).__init__()
-		self = parent
-
-	def initialise_userinterface(self):
-		vbox_main = QtGui.QVBoxLayout()
-		vbox_main.addStretch(1)
-
-		hbox_hostname = QtGui.QHBoxLayout()
-		self.label_hostname = QtGui.QLabel("Hostname")
-		hbox_hostname.addWidget( self.label_hostname )
-		self.entry_hostname = QtGui.QLineEdit()
-		hbox_hostname.addWidget( self.entry_hostname )
-		hr = QtGui.QFrame()
-		hr.setFrameShape( QtGui.QFrame.HLine )
-		vbox_hostname.addWidget( hr )
-
-		hbox_default = QtGui.QHBoxLayout()
-		self.label_default = QtGui.QLabel("Default")
-		hbox_default.addWidget( self.label_default )
-		self.checkbox_default = QtGui.QCheckBox()
-		hbox_default.addWidget( self.entry_default )
-		hr = QtGui.QFrame()
-		hr.setFrameShape( QtGui.QFrame.HLine )
-		vbox_default.addWidget( hr )
-
-		hbox_default = QtGui.QHBoxLayout()
-		self.label_default = QtGui.QLabel("Default")
-		hbox_default.addWidget( self.label_default )
-		self.checkbox_default = QtGui.QCheckBox()
-		hbox_default.addWidget( self.entry_default )
-		hr = QtGui.QFrame()
-		hr.setFrameShape( QtGui.QFrame.HLine )
-		vbox_default.addWidget( hr )
 

@@ -67,7 +67,7 @@ class UploadManager:
 
 	def process_payload(self, payload_items = None):
 		"""
-			Iterates through self.list_images and does the following :
+			Iterates through self.files and does the following :
 				1. converts the path to an absolute path
 		"""
 		if not payload_items:
@@ -93,30 +93,38 @@ class UploadManager:
 				self.logger.info("Uploading [ %s ] to %s [ %s/%s ]" % (param.filename, self.target_host.get('host', 'host_url'), current, total))
 				self.item_process_callback(param.filename,current, total)
 
-	def deliver_payload(self, progress_callback = None, completed_callback=None):
+	def deliver_payload(self, callback_item_beforestart=None, callback_item_progress = None, callback_item_completed = None):
 		"""
 			Begins the upload process
 		"""
 		self.logger.info("Beging payload delivery to remote host: %s, payload-items: %s" % (
 				self.target_host.get('host', 'host_url'),
-				str(self.list_images)
+				str(self.files)
 			)
 		)
 
-		self.item_process_callback = progress_callback
-		self.item_complete_callback = completed_callback
+		self.callback_item_beforestart = callback_item_beforestart
+		self.callback_item_progress = callback_item_progress
+		self.callback_item_completed = callback_item_completed
 
-		for image in self.list_images :
+		for image in self.files :
+			callback_item_beforestart( image )
 			output = self.upload_file( image )
-			self.item_complete_callback(image, output)
+			try:
+				self.callback_item_completed(image, output)
+			except:
+				pass
 
 	def upload_file(self, file_path = None):
 		""" Function doc """
 		target = self.target_host
 
-		host = target("host","host_url")
-		upload_url = target("host","upload_url")
+		host = target.get("host","host_url")
+		upload_url = target.get("host","upload_url")
 		data = target._sections["form"].copy()
+		imagefield_name = target.get("host","imagefield")
+		result_remote_url_regex = target.get("host","needle")
+		result_remote_url = target.get("host", "show_url")
 
 		self.logger.info("Beginning upload of [ %s ] to [ %s ]" % (file_path,self.target_host))
 
@@ -128,10 +136,10 @@ class UploadManager:
 				else:
 					data[key] = new_value
 
-		data[target["imagefield"]] = open(file_path,"rb")
+		data[imagefield_name] = open(file_path,"rb")
 
 		self.logger.info("Uploading with formdata [ %s ]" % data )
-		datagen, headers = poster.encode.multipart_encode(data, cb=self.progress_callback)
+		datagen, headers = poster.encode.multipart_encode(data)#, cb = self.callback_item_progress)
 
 		self.logger.info("Building request object")
 		request = urllib2.Request(upload_url, datagen, headers)
@@ -140,13 +148,13 @@ class UploadManager:
 		response = urllib2.urlopen(request).read()
 
 		self.logger.info("Searching response for imageID")
-		match_obj = re.search( target["needle"], response )
+		match_obj = re.search( result_remote_url_regex, response )
 
 		if match_obj != None :
 			image_id = match_obj.group('image_id')
 			if image_id != None :
 				self.logger.info("imageID : %s" % image_id)
-				url = target["show_url"] % image_id
+				url = result_remote_url % image_id
 				return url
 			else :
 				self.logger.error("There was an error uploading the image.")
