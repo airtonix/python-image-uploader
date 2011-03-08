@@ -1,0 +1,16 @@
+
+v0.2.1:
+
+    * Many fixes for the "Hatchet" module to make it build more reliably
+      and run on more platforms.
+
+v0.2.0:
+
+    * Added the "Hatchet" module, a tool for hacking frozen PySide apps down
+      to size by rebuilding the PySide binaries with a minimal set of classes.
+
+
+v0.1.0:
+
+    * initial release; you might say *everything* has changed.
+

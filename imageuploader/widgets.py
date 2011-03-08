@@ -1,77 +1,117 @@
 from PySide import QtCore,QtGui
 
+
+#####################
+##
+## PayloadItem Item Widget
+##
+class PayloadItemWidget( QtGui.QWidget ):
+
+	def __init__(self, text=None, pixmap_uri=None):
+		super(PayloadItemWidget, self).__init__()
+		self.layout = QtGui.QHBoxLayout()
+
+		print pixmap_uri
+
+		self.icon = QtGui.QLabel()
+		self.setIcon( pixmap_uri )
+		self.layout.addWidget( self.icon )
+
+		row_label_container = QtGui.QWidget()
+		row_label_box = QtGui.QVBoxLayout()
+
+		self.label = QtGui.QLabel()
+		self.label.setText(text)
+		row_label_box.addWidget( self.label )
+
+		self.progressbar = PayloadItemProgressBar()
+		row_label_box.addWidget( self.progressbar )
+		row_label_container.setLayout( row_label_box )
+
+		self.layout.addWidget( row_label_container )
+
+		self.setLayout( self.layout )
+
+	def setIcon(self, uri):
+		pixmap = QtGui.QPixmap( uri )
+		if pixmap and pixmap.width > 64 :
+			pixmap = pixmap.scaledToWidth(64)
+		self.icon.setPixmap( pixmap )
+
+
+	def setText(self, text):
+		self.label.setText(text)
+
+	def setProgress(self, value):
+		self.progressbar.set_step(value)
+
+#	def paintEvent(self,event):
+#		pixmap = self.pixmap_icon
+#		painter = QtGui.QPainter(self)
+#		painter.drawText(self.size//2,self.size//2,str(self.text))
+
 class PayloadItemProgressBar(QtGui.QProgressBar):
 	def __init__(self, *args, **kwargs):
 		super(PayloadItemProgressBar, self).__init__(*args, **kwargs)
 		self.timer = QtCore.QBasicTimer()
 		self.step = 0
 
-	def set_step(self, value):
+	def setStep(self, value):
 		self.step = value
-		self.setValue(value)
+
+	def startTimer(self):
+		self.timer.start()
+
+	def stopTimer(self):
+		self.timer.stop()
 
 	def timerEvent(self, event):
 		if self.step >= 100:
-			self.timer.stop()
+			self.stop_timer()
 			return
-#		self.step = self.step + 1
 		self.setValue(self.step)
-
-
-class IconListView(QtGui.QListView):
-	def __init__(self, parent=None):
-		super(IconListView, self).__init__(parent)
-		self.setFlow(QtGui.QListView.TopToBottom)
-		self.setLayoutMode(QtGui.QListView.SinglePass)
-		self.setResizeMode(QtGui.QListView.Adjust)
-		self.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
-		self.setSelectionRectVisible(True)
-		self.setSpacing(1)
-		self.setViewMode(QtGui.QListView.IconMode)
-		self.setWrapping(True)
-
-
-class IconDisplayItem(QtGui.QWidget):
-	def __init__(self, title=None, pixmap_uri=None, progress=None):
-		QtGui.QWidget.__init__(self)
-		self.size=100
-		self.resize(self.size,self.size)
-		self.setMinimumSize(self.size,self.size)
-		self.text = title
-		self.pixmap_uri = pixmap_uri
-
-		self.progressbar = PayloadItemProgressBar(self)
-		self.progressbar.setRange(0, 100)
-		self.progressbar.setValue(0)
-
-		layout = QtGui.QVBoxLayout()
-		layout.addWidget(self.progressbar)
-
-		self.setLayout(layout)
-
-	def setText(self, text):
-		self.text = text
-
-	def setIcon(self, pixmap):
-		self.pixmap = pixmap
-
-	def setProgress(self, value):
-		self.progressbar.set_step(value)
-
-	def paintEvent(self,event):
-#		pixmap = QtGui.QPixmap( self.pixmap_uri )
-		painter = QtGui.QPainter(self)
-		painter.drawText(self.size//2,self.size//2,str(self.text))
 
 #####################
 ##
 ##  Payload Item List View
 ##   subclassed QWidgetList
 
-class PayloadListWidget(QtGui.QListWidget):
+class PayloadListWidget( QtGui.QWidget ):
 	def __init__(self,*args, **kwargs):
 		super(PayloadListWidget, self).__init__()
 
+#		self.setBackgroundRole( QtGui.QPalette.Dark )
+#		self.scrollarea = QtGui.QScrollArea
+#		self.addLayout( self.scrollarea )
+
+		self.setSizePolicy(
+			QtGui.QSizePolicy(
+				QtGui.QSizePolicy.Expanding,
+				QtGui.QSizePolicy.Expanding))
+
+		self.layout = QtGui.QVBoxLayout()
+		self.setLayout( self.layout )
+
+	def populate(self, list_items = None):
+		"""
+			Populates the list with interface representations of the
+			imagefiles to be uploaded.
+
+			Relies on the parent object having a property pointing at
+			the upload managers "files" property, which contains a
+			list of pathnames to imagefiles.
+
+				> parent.upload_manager.files(list)
+		"""
+		if list_items and len(list_items) > 0 :
+			for item in list_items:
+				self.add_item( item )
+
+	def add_item(self, item):
+		self.layout.addWidget( PayloadItemWidget(
+			text = item,
+			pixmap_uri = item
+		) )
 
 	def items(self):
 		for index in range(self.count()):

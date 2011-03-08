@@ -12,7 +12,7 @@ from PySide import QtCore,QtGui
 
 from . import utils
 from .uploader import UploadManager
-from .widgets import PayloadItemProgressBar, PayloadListWidget, IconListView, IconDisplayItem
+from .widgets import PayloadItemWidget, PayloadListWidget
 
 
 __author__ = "Zenobius Jiricek"
@@ -74,32 +74,9 @@ class ImageUploader(QtGui.QApplication):
 
 		self.mainWindow = MainWindow(self)
 		self.mainWindow.setWindowTitle( __application_name__ )
-		self.mainWindow.resize(270, 540)
 
 		self.mainWindow.statusBar().showMessage("Ready")
 
-
-#####################
-##
-## Test Item Widget
-##
-class PayloadItem( QtGui.QWidget ):
-	progressbar = None
-	text = None
-	icon = None
-
-	def __init__(self, label=None, icon=None):
-		layout = QtGui.QHBoxLayout()
-
-		self.progressbar = PayloadItemProgressBar()
-		layout.addWidget( self.progressbar )
-
-		self.pixmap_icon = QtGui.QPixmap( self.icon )
-		layout.addWidget( self.pixmap_icon )
-
-		self.label_text = QtGui.QLabel(self.text)
-		layout.addWidget( self.label_text )
-		self.setLayout( layout )
 
 #####################
 ##
@@ -114,17 +91,16 @@ class MainWindow(QtGui.QMainWindow):
 		self.setCentralWidget(self.centralWidget)
 
 		self.header_row = self.create_header()
-		self.payload_row = self.create_payload_preview()
 		self.footer_row = self.create_footer()
+		self.payload_list = PayloadListWidget(self)
 
 		main_layout = QtGui.QGridLayout()
-		main_layout.addWidget( self.header_row, 0,0, QtCore.Qt.AlignTop)
-		main_layout.addWidget( self.payload_row,1,0, QtCore.Qt.AlignTop)
-		main_layout.addWidget( self.footer_row, 2,0, QtCore.Qt.AlignBottom)
+		main_layout.addWidget( self.header_row, 0,0, 1,0, QtCore.Qt.AlignTop)
+		main_layout.addWidget( self.payload_list, 1,0, 6,1,QtCore.Qt.AlignTop)
+		main_layout.addWidget( self.footer_row, 7,0, 1,0, QtCore.Qt.AlignTop)
 
 		self.centralWidget.setLayout(main_layout)
-
-		self.populate_payload_items()
+		self.payload_list.populate( self.parent.upload_manager.files )
 		self.setFocus()
 
 	#####################
@@ -161,39 +137,12 @@ class MainWindow(QtGui.QMainWindow):
 		layout.addWidget( self.label_application_title , QtCore.Qt.AlignLeft)
 
 		row.setLayout(layout)
-
+		row.setSizePolicy(
+			QtGui.QSizePolicy(
+				QtGui.QSizePolicy.Fixed,
+				QtGui.QSizePolicy.Fixed))
 		return row
 
-	def create_payload_preview(self):
-		"""
-			Interface Construction :
-				Build the Footer Area.
-
-				Creates the main interaction area, where each payload
-				item (a PayloadDisplayIcon) is displayed.
-		"""
-		row_widget = QtGui.QWidget()
-		row_widget.setSizePolicy(
-			QtGui.QSizePolicy(
-				QtGui.QSizePolicy.Expanding,
-				QtGui.QSizePolicy.Maximum))
-
-		row_layout = QtGui.QVBoxLayout()
-		row_layout.setStretch(0,1)
-
-		scroller_container = QtGui.QWidget()
-		row_scroller = QtGui.QScrollArea()
-		row_scroller.setWidget( scroller_container )
-		row_scroller.setBackgroundRole( QtGui.QPalette.Dark )
-
-		scroller_layout = QtGui.QVBoxLayout()
-		scroller_layout.setStretch(0,1)
-		scroller_container.setLayout( scroller_layout )
-
-		row_layout.addWidget( row_scroller )
-
-		row_widget.setLayout( row_layout )
-		return row_widget
 
 	def create_footer(self):
 		"""
@@ -228,6 +177,11 @@ class MainWindow(QtGui.QMainWindow):
 		layout.addWidget(button_start_delivery, stretch = 0)
 
 		row.setLayout(layout)
+		row.setSizePolicy(
+			QtGui.QSizePolicy(
+				QtGui.QSizePolicy.Expanding,
+				QtGui.QSizePolicy.Expanding))
+
 		return row
 
 	#####################
@@ -243,30 +197,6 @@ class MainWindow(QtGui.QMainWindow):
 		"""
 		for hostname, data in profiles.items() :
 			widget.addItem( os.path.splitext(hostname)[0] )
-
-
-	def populate_payload_items(self):
-		"""
-			Populates the list with interface representations of the
-			imagefiles to be uploaded.
-
-			Relies on the parent object having a property pointing at
-			the upload managers "files" property, which contains a
-			list of pathnames to imagefiles.
-
-				> parent.upload_manager.files(list)
-		"""
-		for item in self.parent.upload_manager.files:
-			label = os.path.splitext(item)[0]
-			icon = QtGui.QIcon( QtGui.QPixmap(item) )
-#			self.payload_row.layout.addWidget(
-#				PayloadItem(
-#					label = label,
-#					icon = icon
-#				)
-#			)
-
-#		self.payload_view.setAutoFillBackground(True)
 
 	def get_payload_item(self, filename = None):
 		found = False

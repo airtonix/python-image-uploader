@@ -1,0 +1,1192 @@
+commit 75321b8149ec5cfb69c4b758976b5a11ff22083b
+Author: Luciano Wolf <luciano.wolf@openbossa.org>
+Date:   Fri Oct 8 15:58:28 2010 -0300
+
+    Updating documentation to reflect adoption of wikipages.
+    
+    Reviewer: Renato Araújo <renato.filho@openbossa.org>
+
+commit e0eb744489cfe4914bef235880f8219984d7d43d
+Author: renatofilho <renato.filho@openbossa.org>
+Date:   Mon Oct 4 19:26:42 2010 -0300
+
+    Implemented support to OriginalName flag on typeName function.
+    
+    Reviewer: Hugo Parente Lima <hugo.pl@gmail.com>
+              Luciano Wolf <luciano.wolf@openbossa.org>
+
+commit 67da904f47c450ce5e5c5cd037680d002035549f
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Mon Oct 4 18:56:52 2010 -0300
+
+    Use the correct package name at module index.
+
+commit 69566068b5d0e3fa9f21f038dc7622cf1d9b3594
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Mon Sep 27 14:50:52 2010 -0300
+
+    Replace QVariant doc entries by None or object.
+    
+    None when QVariant is used as an argument default value, object
+    when it's used as return value or just to inform the expected
+    argument type.
+    
+    Reviewer: Luciano Wolf <luciano.wolf@openbossa.org>
+              Marcelo lira <marcelo.lira@openbossa.org>
+
+commit 23979df5d6e9d4dfcdcaef8f4c358cb2acd721c5
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Mon Sep 27 14:44:36 2010 -0300
+
+    Support doc generation of various modules in one go and removes QString and QStringList entries from generated docs.
+
+commit 00ef2994b4cb744173f92d57673683a7d2d0b0c3
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Thu Sep 23 16:08:43 2010 -0300
+
+    Fixes bug#168, bug#310 and bug#330.
+    
+    Reviewer: Luciano Wolf <luciano.wolf@openbossa.org>
+              Marcelo Lira <marcelo.lira@openbossa.org>
+
+commit 4af2783edecbaaead34cb33c913ba67be4add73c
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Thu Sep 23 16:06:11 2010 -0300
+
+    Add quotes to GENERATORRUNNER_PLUGINDIR variable.
+
+commit 428526553190a8be5f81bf3592e4ae98137ffbdd
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Thu Sep 23 15:38:31 2010 -0300
+
+    Removed file not used related to documentation.
+
+commit 092e6cb2f7e54a90e200f6c80763640319dde25b
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Wed Sep 15 18:16:39 2010 -0300
+
+    Remove outdated information about boost graph from docs.
+    
+    Reviewer: Renato Araújo <renato.filho@openbossa.org>
+              Luciano Wolf <luciano.wolf@openbossa.org>
+
+commit 9c1186eacda68f9573d228291aecd022a9493c10
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Wed Sep 15 17:24:57 2010 -0300
+
+    Add "doc" target to be able to build the docs out of the source directory.
+
+commit 7ecf20e2a7389bf4f11f0c229338606fd001e75d
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Wed Sep 15 15:11:12 2010 -0300
+
+    Removed broken links from docs.
+
+commit 3dc95645c3324d23744d779f7898a3e976b858a3
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Wed Sep 15 15:10:55 2010 -0300
+
+    Version bump.
+
+commit c46e12c8c16894b4ac942e60bb47851768a2f91d
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Fri Sep 10 12:01:37 2010 -0300
+
+    Use full file name on GENERATORRUNNER_BINARY.
+
+commit fedb9b3daac568c5c6f23dec0fd97c407f3e8023
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Thu Sep 9 15:49:00 2010 -0300
+
+    Created cmake option 'ENABLE_VERSION_SUFFIX' to use version on generated files to allow multiples version installed simultaneous.
+    
+    Reviewer: Hugo Parente Lima <hugo.pl@gmail.com>
+              Luciano Wolf <luciano.wolf@openbossa.org>
+
+commit 0c3d5644e0d3eb8b7955c92d0cf147f0ae84869d
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Thu Sep 9 15:40:00 2010 -0300
+
+    Bump the required ApiExtractor version.
+
+commit c68f96c1c49afa14bd0907bddeee053264d032c1
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Tue Aug 31 16:15:47 2010 -0300
+
+    Use diferent path separators for windows and unices.
+    
+    Reviewer: Luciano Wolf <luciano.wolf@openbossa.org>
+              Renato Araújo <renato.filho@openbossa.org>
+
+commit 6c411b3fb53984ec35b04cad98f30d6b28361216
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Thu Aug 19 16:38:58 2010 -0300
+
+    Cleanup generatorrunner export/import macros.
+    
+    Reviewer: Luciano Wold <luciano.wolf@openbossa.org>
+              Renato Araújo <renato.filho@openbossa.org>
+
+commit 5f465d1eedff7727d005e2724dbc56960b0f313b
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Wed Aug 18 17:09:07 2010 -0300
+
+    Use DEFINE_SYMBOL in cmake to create the define to exports symbols.
+    
+    Reviewer: Luciano Wolf <luciano.wolf@openbossa.org>
+              Hugo Parente Lima <hugo.pl@gmail.com>
+
+commit 1b89ed5df330e4588838de36a7bbf11e595158e2
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Wed Aug 18 16:02:14 2010 -0300
+
+    Don't *always* build generatorrunner as debug.
+    
+    This fixes the segfault under windows when compiling in release mode.
+    
+    Reviewer: Luciano Wolf <luciano.wolf@openbossa.org>
+              Renato Araújo <renato.filho@openbossa.org>
+
+commit 876afa44660e1275358cfe05f649bb34c250c460
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Wed Aug 18 16:00:34 2010 -0300
+
+    Fix flags used when compiling using MSVC.
+
+commit 09a2d2aaa6349df614752f10cd8663ad3a83aee5
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Mon Aug 16 16:40:06 2010 -0300
+
+    Do not compiles doc generator when ApiExtractor doesn't have support for
+    doc strings.
+    
+    Reviewer: Luciano Wolf <luciano.wolf@openbossa.org>
+              Renato Araújo <renato.filho@openbossa.org>
+
+commit 16e7b284c2c93a18bc181296f7486baf13ab9f1f
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Wed Aug 11 14:08:55 2010 -0300
+
+    Take care to remove only the first const and ref when translate types.
+    
+    Reviewer: Marcelo Lira <marcelo.lira@openbossa.org>,
+              Luciano Wolf <luciano.wolf@openbossa.org>
+
+commit 12358699d6ad2e190645936782bf442193de7f72
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Tue Aug 3 19:42:48 2010 -0300
+
+    Bump to version 0.6.1.
+
+commit b8d7a7cb99a6123babf738d16743cc96ba8869be
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Mon Jul 19 12:15:03 2010 -0300
+
+    Removed lib prefix from generators plugin.
+    
+    Reviewer: Marcelo Lira <marcelo.lira@openbossa.org>,
+              Luciano Wolf <luciano.wolf@openbossa.org>
+
+commit e826abb238fcd991f4496cc896a8e0c45cc81a48
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Thu Jul 8 17:27:33 2010 -0300
+
+    Bump version due to ABI changes.
+    
+    Reviewer: Renato Araújo <renato.filho@openbossa.org>
+              Luciano Wolf <luciano.wolf@openbossa.org>
+
+commit 9e005dea1040dbfa7d1746fe6fa64ab2c0e07f1a
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Thu Jul 8 17:26:56 2010 -0300
+
+    Removed deprecated methods.
+
+commit 0e2f7543d283f37cd5c47028b663b415572f576f
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Thu Jul 8 16:30:32 2010 -0300
+
+    Adapt to recent changes in ApiExtractor API.
+
+commit aa333111a036873d2942fa949901d5634c5f44a7
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Wed Jun 30 18:08:24 2010 -0300
+
+    Implemented support to namespace.
+    
+    Reviewer: Luciano Wolf <luciano.wolf@openbossa.org>,
+              Hugo Parente Lima <hugo.lima@openbossa.org>
+
+commit 2e58a6d67c38ef627c1065fca61c3602a1eb49d0
+Author: Hugo Parente Lima <hugo.pl@gmail.com>
+Date:   Wed Jun 23 16:46:40 2010 -0300
+
+    Fix cmake files used by other projects to detect Generator Runner.
+    
+    Reviewer: Marcelo Lira <marcelo.lira@openbossa.org>
+              Renato Araújo <renato.filho@openbossa.org>
+
+commit a6e5c09a32b7f5eff5dd35664bb4bf8fa55886ed
+Author: Hugo Parente Lima <hugo.lima@openbossa.org>
+Date:   Fri Jun 11 18:43:57 2010 -0300
+
+    Fix instalation on MSVC.
+
+commit ae2d4d290427a734acc071d5e4b07ff8c4f5f68a
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Wed Jun 9 18:11:49 2010 -0300
+
+    Flush report messages at the end of program.
+
+commit 6c1d27c84432b2551434a81fc83295bbc31b9924
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Mon Jun 7 11:05:56 2010 -0300
+
+    Updated documentation version.
+
+commit 6cab3f6c9a61fae52b45f8c08a52576a429ed371
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Mon Jun 7 09:55:22 2010 -0300
+
+    Bump to version 0.5.1.
+
+commit 1681b7fd0735d56efe6b3eb86191eda463f3fde9
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Thu Jun 3 12:03:21 2010 -0300
+
+    Bump version 0.5.0
+
+commit be4399fccc20a9c957722a305cc604526fc9bd61
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Mon May 31 15:53:17 2010 -0300
+
+    Added methods Generator::findAbstractMetaEnum.
+    
+    The new methods returns an AbstractMetaEnum for a given
+    TypeEntry, EnumTypeEntry, FlagsTypeEntry or AbstractMetaType.
+    
+    Reviewed by Renato Araújo <renato.filho@openbossa.org>
+    Reviewed by Luciano Wolf <luciano.wolf@openbossa.org>
+
+commit 4aad76e02a6d4d39b018b83e0d21fc976b153930
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Fri May 28 14:00:51 2010 -0300
+
+    Use external CXX_FLAGS on compilation flags.
+    
+    Reviewer: Luciano Wolf <luciano.wolf@openbossa.org>,
+              Marcelo Lira <marcelo.lira@openbossa.org>
+
+commit 4bd6afcca5854f6f0d706f226ca8ddf825349b76
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Fri May 28 10:59:55 2010 -0300
+
+    Disabled GCC optimization flags by default.
+    
+    Reviewer: Luciano Wolf <luciano.wolf@openbossa.org>,
+              Marcelo Lira <marcelo.lira@openbossa.org>
+
+commit 48f7e2ae85aeb2d3a5273f05d4f7bcc54e0caac4
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Tue May 25 16:49:16 2010 -0300
+
+    Implemented support to api-version.
+    
+    Reviewer: Luciano Wolf <luciano.wolf@openbossa.org>,
+              Marcelo Lira <marcelo.lira@openbossa.org>
+
+commit 95b14c44b5950b6a389d4d6c29f361016ab3f4db
+Author: Hugo Parente Lima <hugo.lima@openbossa.org>
+Date:   Fri May 21 19:02:01 2010 -0300
+
+    Use ":" as path splitter on all platforms, this unique behaviour will simplify the
+    CMakeLists.txt and avoid configure errors on non-Unix like platforms.
+    
+    Reviewer: Luciano Wolf <luciano.wolf@openbossa.org>
+              Renato Araújo <renato.filho@openbossa.org>
+
+commit 56904856fbbc83b9face41edc0af3049273abe42
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Tue May 4 18:44:24 2010 -0300
+
+    Bump to version 0.4.3
+
+commit 7c219799688ec0704dcd3cb9112b75c7603e6dac
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Tue May 4 11:03:11 2010 -0300
+
+    Updated git-archive use to keep compatibility with git version 1.6.
+
+commit c7c9e25d2a8ca5272baaad651b0e985213f59dcd
+Author: Hugo Parente Lima <hugo.lima@openbossa.org>
+Date:   Tue May 4 10:56:08 2010 -0300
+
+    Fix libgenerator SONAME.
+
+commit 92c88418c8c737dd55d35fbf1d28729ac01445b0
+Author: Hugo Parente Lima <hugo.lima@openbossa.org>
+Date:   Tue May 4 10:56:31 2010 -0300
+
+    Bump version to 0.4.2
+
+commit 5cf1569284d049bdc5254547a6b58b7a685ee2b3
+Author: Renato Filho <renato.filho@openbossa.org>
+Date:   Mon May 3 18:48:52 2010 -0300
+
+    Create .gitattributes file.
+
+commit 8602ed0140f92884516b5e48ff685d6f90227980
+Author: Hugo Parente Lima <hugo.lima@openbossa.org>
+Date:   Mon May 3 16:38:16 2010 -0300
+
+    Do not crash when the given table is wrong.
+    
+    Reviewer: Bruno Araújo <bruno.araujo@openbossa.org>
+    Reviewer: Renato Araújo <renato.araujo@openbossa.org>
+
+commit 7384ec7a48990cdbf1a44d52e2d17ac62d429b76
+Author: Hugo Parente Lima <hugo.lima@openbossa.org>
+Date:   Thu Apr 15 15:25:42 2010 -0300
+
+    Adapt to changes in ApiExtractor
+    
+    Reviewer: Luciano Wolf <luciano.wolf@openbossa.org>
+    Reviewer: Renato Araújo <renato.araujo@openbossa.org>
+
+commit f149e00720e33fa625466133ad415671d09c6202
+Author: Carlos Goncalves <mail@cgoncalves.info>
+Date:   Wed Mar 24 23:28:38 2010 +0000
+
+    Do not build tests if explicitly wanted to. Default is to build.
+    
+    The majority of users don't need tests built. This will reduce build time
+    significantly, and packagers will be thanked for it. To not build tests append
+    -DBUILD_TESTS=False to cmake parameters.
+    
+    Reviewer: Anderson Lizardo <anderson.lizardo@openbossa.org>
+    Reviewer: Hugo Parente <hugo.lima@openbossa.org>
+
+commit 81c7eb43c6d6990768348de63dbc9a6da5dbd976
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Tue Mar 23 11:11:28 2010 -0300
+
+    Changed routine to build source packages.
+    
+    Our changelog is just the output of git log, so it's added only on source packages
+    and don't need to stay in the git repository.
+    
+    Reviewer: Marcelo Lira <marcelo.lira@openbossa.org>
+    Reviewer: Anderson Lizardo <anderson.lizardo@openbossa.org>
+
+commit 7f74f2f556677ce0685b92ac02570cbdbadb5f43
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Mar 22 18:52:23 2010 -0300
+
+    Bump version to 0.4.1
+
+commit 8dd68f78c4b3fde0484e1c45f793a5aed81ae7bf
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Mar 22 18:51:12 2010 -0300
+
+    Bump version to 0.4.0
+
+commit ab48c49c3ac0c545e90126d3d1be2d310ba3bdf6
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Mar 22 14:55:14 2010 -0300
+
+    Fix pkgconfig libdir variable with lib64/ or lib32/ directories.
+    
+    Reviewer: Marcelo Lira <marcelo.lira@openbossa.org>
+    Reviewer: Bruno Araújo <bruno.araujo@openbossa.org>
+
+commit c1bc5071b0f513ad1e8622f76f9c3db4229480fe
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Mar 22 14:54:46 2010 -0300
+
+    Change the application name on help message, besides the copyright year.
+
+commit 74eb21fa674315cbfba994a451cbc58d7ffaab66
+Author: Lauro Neto <lauro.neto@openbossa.org>
+Date:   Thu Feb 25 17:56:22 2010 -0300
+
+    Fix Config.cmake library path
+    
+    Reviewed: Hugo Lima <hugo.lima@openbossa.org>
+
+commit a9a1bfa16220446594f2caa600c10f588f995981
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Wed Feb 24 16:10:38 2010 -0300
+
+    Remove FindGeneratorRunner.cmake file in favor of GeneratorRunnerConfig and Version .cmake files.
+    
+    This is the right way to go, according to:
+    
+    - http://www.cmake.org/pipermail/cmake/2009-April/028504.html
+    - http://www.cmake.org/Wiki/CMake_2.6_Notes#Packages
+    
+    Reviewed by Renato Araújo <renato.filho@openbossa.org>
+
+commit f7a2b6099245ee47cd7f87b2ca7c0a8e513797d0
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Wed Feb 24 15:54:38 2010 -0300
+
+    Fix bug in CMakeLists.txt triggered when some paths contains white spaces.
+
+commit 2f0a8f07a9412441d34098c26cf4360d6246e0b5
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Wed Feb 3 14:39:38 2010 -0200
+
+    Avoid get the wrong class when using Generator::implicitConversions(const TypeEntry*) when there are
+    two classes with the same name, but in different scopes.
+
+commit 593804998aaa1d463b06bb5db6ef467aed23c272
+Author: Lauro Neto <lauro.neto@openbossa.org>
+Date:   Tue Jan 26 11:41:20 2010 -0300
+
+    Fixing includes and include dirs
+    
+    Avoiding .. includes
+    
+    Reviewed by Hugo Parente <hugo.lima@openbossa.org>
+
+commit 366c05def936d6577cde73ba18583ded95056129
+Author: renato <renato.filho@openbossa.org>
+Date:   Mon Dec 21 14:39:31 2009 -0300
+
+    Bump to version 0.3.4.
+
+commit b5c2a8fb4b598684bde4cfb156d345649a9b11f8
+Author: renato <renato.filho@openbossa.org>
+Date:   Thu Dec 17 19:42:16 2009 -0300
+
+    Updated Changelog.
+
+commit bd98924d1a335fb34e3119a58bae3c0d42493c26
+Author: Bruno dos Santos de Araujo <bruno.araujo@openbossa.org>
+Date:   Wed Dec 16 08:50:48 2009 -0400
+
+    Add constraint to avoid index out-of-range errors
+    
+    Reviewer: Lauro Neto <lauro.neto@openbossa.org>
+
+commit 6bdce6ad951e10b3830b8a6a763961038e1f7828
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Tue Dec 15 14:36:41 2009 -0300
+
+    Improved Generator::replaceTemplateVariables method to avoid segfaults.
+    
+    Reviewed by Hugo Parente <hugo.lima@openbossa.org>
+
+commit b2519fa1f17be24956772f5a5101a914cbbdb77d
+Merge: 9a434d3 302029e
+Author: renato araujo oliveira <renato@renato-note.(none)>
+Date:   Tue Nov 24 11:46:18 2009 -0300
+
+    Merge commit 'mainline/master'
+
+commit 9a434d34ee73e69db79fa1bba0c9443404653546
+Author: renato araujo oliveira <renato@renato-note.(none)>
+Date:   Tue Nov 24 11:45:58 2009 -0300
+
+    Bump to version 0.3.3.
+
+commit 00104551d30e1c5825d8993f28b81dfa06da038b
+Author: renato araujo oliveira <renato@renato-note.(none)>
+Date:   Tue Nov 24 11:39:57 2009 -0300
+
+    Updated Changelog.
+
+commit 302029e093c88fb46cea8d6131726b82731110f9
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Nov 23 16:51:01 2009 -0200
+
+    Change the getGenerators signature, because on some platforms a function exported as a C function
+    can't return a C++ type by value.
+    
+    All generators plugins *MUST* be recompiled.
+    
+    Reviewed by Luciano Wolf <luciano.wolf@openbossa.org>
+
+commit 04b6a05df40f88e1a62e522fb65264b932a904d5
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Nov 23 16:49:33 2009 -0200
+
+    Disable GENRUNNER_DEPRECATED macro when using msvc.
+
+commit 01c26669868b61f641b2bbf4d36779a354ab651d
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Nov 23 14:57:01 2009 -0200
+
+    FindGeneratorRunner.cmake now respect the find_package REQUIRED attribute.
+
+commit 0c1ef1849561b56a9f06f0225887b65b0e07beec
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Nov 23 14:39:36 2009 -0200
+
+    Install FindGenRunner.cmake and libgenrunner in the correct directory.
+
+commit f94e3ab6047ee725c11a6154ff10892811e9226c
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Sat Nov 21 15:53:22 2009 -0200
+
+    Add proper compiler flags for msvc.
+
+commit 7abd582fb9b75a1b5b11f8ea2b954bde5ec9e4ff
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Sat Nov 21 15:51:10 2009 -0200
+
+    Fix macros about dllexport/dllimport.
+
+commit 5f1029fae1172331fe8e110ba0302b338f6712f6
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Thu Nov 19 20:04:32 2009 -0200
+
+    Remove white spaces at end of each line when formating injected code.
+
+commit af0c620e6c74680db24e1bf1a400c48410cae418
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Thu Nov 19 15:02:34 2009 -0200
+
+    Fix the formatCode function (again).
+    
+    Reviewed by Marcelo Lira <marcelo.lira@openbossa.org>
+
+commit 2946030013ebe8f80a5596a41b5f183c1b2efa58
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Thu Nov 19 14:40:10 2009 -0200
+
+    Fix the formatCode function.
+    
+    Reviewed by Marcelo Lira <marcelo.lira@openbossa.org>
+
+commit 36b122bc1699f37f0354ce62e8de8e7ab866703b
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Wed Nov 18 11:24:51 2009 -0200
+
+    Delete all generators at exit.
+    
+    Reviewed by Marcelo Lira <marcelo.lira@openbossa.org>
+
+commit f2b81bc077d6bdec8d846db0f7a7e28e6472894d
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Wed Nov 18 10:17:54 2009 -0200
+
+    Creates the output directory if it doesn't exists.
+
+commit e4c1f6a91ad8f12a196948ca52231f6353b0f233
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Tue Nov 17 17:02:23 2009 -0200
+
+    Remove two compilation warnings from qtdoc generator.
+    
+    Reviewed by Renato Araujo <renato.filho@openbossa.org>
+
+commit e860f1efded4e9dc177686372ed06d3a97ba3f11
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Tue Nov 17 16:16:23 2009 -0200
+
+    - Prepare libgenerator.so for a near future when we will need to worry about BIC changes,
+      Now it uses a d-pointer and do not export private methods/structures.
+    - Mark some methods as deprecated, as they doesn't belong to Generator, being a huge
+      cohesion failure IMO.
+    - Fixed constness of some methods.
+    
+    Deprecated methods:
+      AbstractMetaFunctionList filterFunctions(const AbstractMetaClass *cppClass);
+      AbstractMetaFunctionList queryFunctions(const AbstractMetaClass *cpp_class, bool all_function = false);
+      AbstractMetaFunctionList queryGlobalOperators(const AbstractMetaClass *cpp_class);
+      AbstractMetaFunctionList sortConstructor(AbstractMetaFunctionList list);
+    
+    Moved method:
+    	verifyDirectoryFor is now a ordinary global function like formatCode, because it's a helper function
+        not related with code generation.
+    
+    All these methods would be somewhere/somehow in APIExtractor, because they are basically helper methods to
+    supply some APIExtractor missing functionalities.
+    
+    Note: Shiboken and BoostPython generator needs some minor fixes to adapt to changed caused by this patch.
+
+commit 345ede7ab3abaca5ec362ebb2cf09a5aabb4cb9a
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Tue Nov 17 14:08:49 2009 -0200
+
+    Remove duplicated documentation.
+
+commit bb21dd53db3fcdb2bb22b5ead64aa846fd430cd3
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Tue Nov 17 14:06:22 2009 -0200
+
+    Fixes bug91
+    
+    Create only one symlink, libgenrunner.so, pointing to libgenrunner.so.x.y.z
+
+commit f081e5ff270a23a2ae2dafede0520416f681ff4b
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Tue Nov 17 11:44:00 2009 -0200
+
+    Add symbol visibility rules to generator runner.
+
+commit 4545d7fc24b016d6456da40298a2cf4581e38ec1
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Fri Oct 30 19:49:29 2009 -0300
+
+    added Generator::implicitConversions(type) method that returns the constructors
+    for implicit conversions for the given type, which should be a value-type
+    
+    Reviewed by Hugo Parente <hugo.lima@openbossa.org>
+
+commit 2419238d2c1fe4b80e5b5e5767f70bc275aa08a0
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Fri Oct 30 19:06:38 2009 -0300
+
+    fixed typo in Generator::sortConstructor method name
+
+commit f93d6e90bee106a137968e6b267fa574dcdbb862
+Author: Lauro Neto <lauro.neto@openbossa.org>
+Date:   Tue Oct 27 14:49:15 2009 -0300
+
+    Fix SOVERSION/VERSION
+    
+    SOVERSION -> MAJOR_VERSION
+    VERSION -> full VERSION
+
+commit 4cfd8a4c182ede5fb499163e836a3619dbf92a4a
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Oct 26 14:58:15 2009 -0200
+
+    Add the missing qflags macro to Options qflag.
+
+commit 5ef2ad8a5a64d0115099be75162ec311479af233
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Mon Oct 26 17:04:32 2009 -0300
+
+    applied patch from  Didier Raboud, to fix mixed hyphens and minuses on manpage.
+
+commit f148676af83cf3b71d55aab34feaea85f9f574dc
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Mon Oct 26 14:32:45 2009 -0300
+
+    renamed generator architecture diagram file to a proper name
+
+commit 56ac6360323737d2d07921b96e29c1f5a5ba6d70
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Mon Oct 26 14:30:56 2009 -0300
+
+    updated generator architecture diagram for Generator Runner
+
+commit 3a15584474c9865e23334e30b7cac640dc166a12
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Mon Oct 26 11:04:22 2009 -0300
+
+    readded tests for qtdoc generator that were left behind when forking
+    from boostpythongenerator
+
+commit ae3abca2b15794bdde313eed3f7f9391cd68f72d
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Mon Oct 26 09:31:08 2009 -0300
+
+    forked boostpythongenerator project to separate the generatorrunner
+    so that it could be used independently; the qtdoc generator module
+    remained part of generatorrunner
+
+commit 8fd38fe9fcb176441e34cad2a3094301c33080f5
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Wed Oct 21 17:01:57 2009 -0200
+
+    Fixed the openbossa logo on the pysidedocs theme.
+
+commit d1af6dc97bbf18577c7a3c4e7a505d1596473cd9
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Wed Oct 21 15:12:34 2009 -0200
+
+    Added pysidedocs theme to the generatorrunner documentation.
+
+commit 17a82a3123c8f0d21aa4e32e295f729d862e65f4
+Author: renato araujo <renato@renato-mac.osmtc.indt.org.br>
+Date:   Wed Oct 21 10:47:15 2009 -0300
+
+    Implemented support to conversion-rule tag.
+    
+    Reviwed by: Marcelo Lira <marcelo.lira@openbossa.org>
+
+commit 50a75628a9d5ca8dc516c466d97ca0d0cd4004ca
+Author: renato araujo <renato@renato-mac.osmtc.indt.org.br>
+Date:   Tue Oct 20 15:48:11 2009 -0300
+
+    Created execption handle for virtual functions.
+
+commit 282b8964740d8f0c4c4b9b10f21622da44c1dbd9
+Author: Lauro Neto <lauro.neto@openbossa.org>
+Date:   Mon Oct 5 10:45:14 2009 -0300
+
+    Bump to 0.3.2
+
+commit af59f0ced4df8ec0ab709f7df5fdd674c9d21f6a
+Author: Lauro Neto <lauro.neto@openbossa.org>
+Date:   Fri Oct 2 16:00:39 2009 -0300
+
+    Update changelog for 0.3.1
+
+commit 0d720fd9faa9eeef9756952d4e9df4ef8f93029a
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Sep 28 10:59:28 2009 -0300
+
+    reinterpert_cast replaced by a C-style cast, to avoid compiler errors on some plataforms.
+    
+    Cast an object pointer to a function pointer is an undefinied behaviour in some exotic
+    platforms, so some compiler raise a flag against it. However if we use a C-style cast the compiler
+    ignores it.
+    
+    This problem is related to the QLibrary API returning a void* instead of a generic
+    function pointer.
+
+commit 42562fa1c3794ba9657cdfd29cbee33000316d52
+Author: Bruno dos Santos de Araujo <bruno.araujo@openbossa.org>
+Date:   Fri Sep 25 09:51:29 2009 -0400
+
+    Add manpages for generatorrunner, docgenerator and boostpythongenerator. (Fixes: #29)
+
+commit 50bfbf524e84fee2b3e7cb7a6e74eab73cc99ab1
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Tue Sep 15 18:57:16 2009 -0300
+
+    Fixed generation of fields for non wrapped class.
+    
+    Fixed copy constructor generation.
+
+commit 1484802d654fb18ea5da9c10c1a4f3a72ba34e9e
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Sat Sep 12 20:52:45 2009 -0300
+
+    Implemented support to return policy for Qt::HANDLE.
+
+commit 3d18dd2011db8901032dee7136df014b502d0aa7
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Thu Sep 10 19:43:28 2009 -0300
+
+    Fixed missing include in docgenerator.
+    
+    Fixes Bug #5
+
+commit 49e15b561187670f6c4314e10929903393d444b1
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Fri Sep 11 11:46:45 2009 -0300
+
+    Write logs in the outputdirectory instead of the current working directory.
+
+commit 17dd519767f2a877457f723f166a90119e2ca310
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Thu Sep 10 10:40:02 2009 -0300
+
+    Created ChangeLog file.
+
+commit e5f356b6f65cd58b682fdbc3247740945bd0b268
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Tue Sep 8 19:01:33 2009 -0300
+
+    Fix typo: GENERATORRUNNER_PUGIN_DIR => GENERATORRUNNER_PLUGIN_DIR
+
+commit 23281d9afef0b1f0972458dbc84f48fd186e435e
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Tue Sep 8 18:58:45 2009 -0300
+
+    Fix typo
+
+commit bc7bbec2a472ba71edcaed3bb90c078b2b67c569
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Tue Sep 8 14:07:47 2009 -0300
+
+    Fix missing parenteses in FindGeneratorRunner.cmake
+
+commit 62bd01fd2bccb01fdb2eb9eeaf07db4ed1ae5838
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Fri Sep 4 14:31:40 2009 -0300
+
+    Fixed bug#26.
+    
+    Reviewed by Renato Araújo
+
+commit 879ca025fc24bb79c5744557fc4a14e186e9f61c
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Fri Sep 4 14:11:07 2009 -0300
+
+    When the user passes an absolute path as the plugin name,
+    generator runner will load the desired file instead of doing
+    a mess with the absolute path and the GENERATORRUNNER_PLUGIN_DIR
+    variable.
+    
+    This is usefull to test generators plugins without installing them.
+    
+    Reviewed by Renato Araújo
+
+commit 74ad15b93b2c3816850acb702c669be8ce0fc4ab
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Thu Sep 3 19:29:54 2009 -0300
+
+    - Merged boostpythongeneratorversion.h.in and generator_plugin_dir.h.in
+    into generatorrunnerconfig.h
+    
+    - Added some variables to FindGeneratorRunner.cmake
+      * GENERATORRUNNER_PLUGIN_DIR The dir where the generator plugins
+        should be installed.
+      * GENERATORRUNNER_VERSION The generatorrunner current version.
+
+commit 518028765c892b7a6a840cca92376ccc8b77b04c
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Thu Sep 3 18:48:57 2009 -0300
+
+    Fixed assert failure when using qtdocgenerator.
+    
+    Added a default implementation for Generator::subDirectoryForClass.
+    This breaks the binary compatibility but NOT the source compatibility.
+
+commit b811be1ce4aa832ed7aa8542da535000924effa3
+Author: Lauro Neto <lauro.neto@openbossa.org>
+Date:   Thu Sep 3 10:38:55 2009 -0300
+
+    Installs generator plugins in its own directory.
+
+commit 25b08270fed65b2ef6e93fc2687c12c900e26309
+Author: Lauro Neto <lauro.neto@openbossa.org>
+Date:   Wed Sep 2 18:55:17 2009 -0300
+
+    Bump version to 0.3.1 (correct version)
+    
+    The previous commit bumped to a wrong version.
+    This also adds support to micro version numbers.
+
+commit 495f51aedd35a886b2ac04a6c54a78368cc28227
+Author: Lauro Neto <lauro.neto@openbossa.org>
+Date:   Wed Sep 2 14:36:41 2009 -0300
+
+    Bump version to 0.4 (development version)
+
+commit ad1ad43beddae554fbb456acc9c6485964df06d2
+Author: Lauro Neto <lauro.neto@openbossa.org>
+Date:   Mon Aug 31 18:17:09 2009 -0300
+
+    Bump to 0.3
+
+commit 267d9adb4f6e19b3c314a501f84d8fae22c0983c
+Author: Chris Hills <chaz@chaz6.com>
+Date:   Mon Aug 31 19:19:01 2009 +0200
+
+    Add pkg-config and cmake support
+    
+    Reviewed by Hugo Parente
+
+commit 06b1408262174c6bbfc4113f2c68fa692f19def3
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Fri Aug 28 13:15:11 2009 -0300
+
+    Fixed default return policy for functions which return references.
+
+commit 9375ce7bd1f622de9a0eef9e6ea111f37581a01b
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Thu Aug 27 20:46:51 2009 -0300
+
+    Fixed export enums without namespace.
+
+commit 6958a91921f3b2edb12679cf451289083d84ce7d
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Thu Aug 27 16:46:56 2009 -0300
+
+    Implemneted QAbstrctField as Python properties.
+    
+    This implementation avoid Karmic python and boost conflict for readonly fields.
+    
+    Reviewed by Lauro Neto <lauro.neto@openbossa.org>
+
+commit 5a193b528142b15d2af726d0f2ab49f9aca258c3
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Tue Aug 25 19:58:33 2009 -0300
+
+    Skip native types using only inNativePointer.
+    
+    with this new isNativePointer, the generator can avoid create useless return policies.
+    
+    Reviewed by Marcelo Lira <marcelo.lira@openbossa.org>
+
+commit 4fca6cf851dbec9c0ea7c930e7d519bdf3d8964e
+Merge: ab4a6ce c52a246
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Wed Aug 26 14:54:35 2009 -0300
+
+    Merge commit 'hugo/fixdocgenerator'
+
+commit ab4a6ce8f5249240275c5d7bc3e136bdf33d2c19
+Merge: 2a81b24 7ab82ee
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Wed Aug 26 14:54:30 2009 -0300
+
+    Merge commit 'hugo/smallfixes'
+
+commit 2a81b249a8098f04aaee89842b90bf53318d61a3
+Merge: df19d99 1fa2842
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Wed Aug 26 14:54:23 2009 -0300
+
+    Merge commit 'setanta/generatorapp'
+
+commit df19d994ac6b7085b75b7551a849248d9dfdfa3f
+Merge: f190baf 4749942
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Wed Aug 26 14:54:20 2009 -0300
+
+    Merge commit 'setanta/metaclassname'
+
+commit c52a246e45150c1f2be6fd0d472223bbaf92ffca
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Wed Aug 26 13:52:00 2009 -0300
+
+    Add missing macro to export qtdocgenerator plugin.
+    
+    Reviewed by Luciano Wolf
+
+commit f190bafc8a82b73c08d25c07ff08a8eb00eca2d7
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Wed Aug 26 03:06:17 2009 -0300
+
+    the generator runner exits with an error code if the call to
+    ApiExtractor.run() returns false
+    
+    Reviewed by Hugo Parente <hugo.lima@openbossa.org>
+
+commit 7ab82eea807ed63ef4bf88668f12568e340b6b5c
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Tue Aug 25 23:40:20 2009 -0300
+
+    Use QFlags instead of an int as parameter type in some methods.
+    
+    Reviewed by Setanta
+
+commit 5255857f84d629241806d883bb23981b49fd4bc8
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Tue Aug 25 22:00:16 2009 -0300
+
+    Install the generator header file into include/generatorrunner
+    
+    Reviewed by Setanta
+
+commit 1fa2842c8125938cad19c13354716ee6521276b4
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Wed Aug 26 13:00:52 2009 -0300
+
+    added convenience binary applications to call the generatorrunner
+    with --generatorSet parameters for boostpython and docgenerator
+    
+    Reviewed by Hugo Parente <hugo.lima@openbossa.org>
+
+commit 47499427e506893068e1d2a0262fdb0ea9e57fc3
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Tue Aug 25 21:17:22 2009 -0300
+
+    moved the code for prepending the Sphinx tag '~' to QtXmlToSphinx::resolveContextForMethod
+    
+    Reviewed by Hugo Parente <hugo.lima@openbossa.org>
+
+commit fd52957d375eb990a0fabbfab35d36480ee057ae
+Merge: 8f94140 f8fba84
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Tue Aug 25 19:43:06 2009 -0300
+
+    Merge commit 'mainline/master' into metaclassname
+    
+    Conflicts:
+    	boostpythongenerator.cpp
+
+commit 8f941405798b67204945d7ec94ef8e63e1535877
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Tue Aug 25 17:10:07 2009 -0300
+
+    DocGenerator now resolves context for method references: it searchs
+    for the class that have implemented the method and link to its
+    definition instead of producing a broken link to the current
+    inheriting class documentation
+
+commit f8fba84d7b0230b1f48109c339197c407757bea1
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Tue Aug 25 16:49:54 2009 -0300
+
+    Fixed typo in tests CMakesLists.
+
+commit 5c23e745fe48bfa1e3d8707788845e46a1de95c9
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Aug 24 19:41:12 2009 -0300
+
+    Fix the libgenrunner name in target_link_libraries
+
+commit 3aa252140e2fcb60350afdc76f11cbfa52dc0479
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Aug 24 19:40:22 2009 -0300
+
+    Fix the libgenrunner version number
+
+commit fcd92287290dfeaf4d29360eb8c9017c59ec053c
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Aug 24 13:41:03 2009 -0300
+
+    Backport "disable named args" bugfix from mainline
+
+commit ec31fe05ff3f9972e9f7f9de9d3ac9e291403202
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Aug 24 13:40:20 2009 -0300
+
+    Plugins always ends with _generator in their names
+
+commit 68425b4bac65e293277123c393e8d5a47a62fcc7
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Aug 24 13:39:31 2009 -0300
+
+    translateType method has been moved to Generator class
+
+commit 2270cb2b4e57b8e3d82dd1cf692eea75a4342c45
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Fri Aug 21 18:36:37 2009 -0300
+
+    Removed QtDocGenerator dependence from BoostPythonGenerator, so a lot
+    of function were moved from BoostPythonGenerator to the Generator class.
+    
+    In other words, QtDocGenerator finally compiles and their unit test pass :-)
+
+commit 55dd77e04a8cef0e14648d6d8fb18cdc18695931
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Fri Aug 21 18:13:34 2009 -0300
+
+    - QtDocGenerator is now a GeneratorRunner plugin.
+    - A lot of methods moved from boostpythongenerator to the generator class.
+
+commit 9682566c558674609a77540978e36db3dd174303
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Fri Aug 21 18:11:26 2009 -0300
+
+    libgenerator is called libgenrunner and boostpythongenerator is called generatorrunner from now and beyond.
+
+commit 46595f8e48b3d3e53e02b0ccb39e593b3cd3c829
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Fri Aug 21 18:09:37 2009 -0300
+
+    Moved docgenerator to generators/qtdoc and renamed it to qtdocgenerator
+
+commit 55ec8a2a4d1c9453e9ba5b27bf8542fa4d586939
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Fri Aug 21 15:38:43 2009 -0300
+
+    Removed redundant PATHSPLITTER macro, using the already definied PATH_SPLITTER one instead.
+
+commit 86c00c1d694cfc69b58ac2fbd0d7744c7f95e39a
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Fri Aug 21 14:21:39 2009 -0300
+
+    Added boostpython as a generator plugin.
+
+commit 425c1eba27766b4382ace8f10daeaa548c9eb0d6
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Thu Aug 20 21:24:45 2009 -0300
+
+    The current generators will be just plugins and all generator stuff in APIExtractor were moved
+    to this project.
+    
+    So we need to re-think if boostpythongenerator still a good name for the project, because
+    boostpythongenerator will be the name of the plugin to generate bindings for boost::python.
+    
+    Also the generators were just moved to a subdirectory (generators) and the boostpython generators
+    to a sub-subdirectory (generators/boostpython), transform them in plugins will be a second milestone.
+
+commit 252ff87489c02fe1b26d650ad855d111042c6490
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Tue Aug 25 11:00:49 2009 -0300
+
+    Removed use of return_const_prt.
+    
+    This not work, because some c++ object does not have a copy constructor.
+
+commit 8beba81378eb52d72864ca5adc1ba5f8e8a816cb
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Mon Aug 24 19:05:18 2009 -0300
+
+    fixed links to classes inside namespaces
+
+commit e31d726e5e71c628a30deca6f33dc8a8c133a8c2
+Merge: 2905268 10c1599
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Mon Aug 24 18:21:27 2009 -0300
+
+    Merge commit 'hugo/master'
+
+commit 29052684cf78ad4bbe0614c5bde0411208336c03
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Mon Aug 24 18:00:38 2009 -0300
+
+    Use of return_const_ptr_object for functions with const pointer return.
+
+commit 59777bbd55a87043e6d8783d619036701e3b5387
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Mon Aug 24 16:23:24 2009 -0300
+
+    fixed problem on documentation: method lists for classes get the
+    scope duplicated when the owner class is inside a namespace
+
+commit 10c15993f817ae2e60afdb4220e841e5104a0e0d
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Aug 24 11:32:53 2009 -0300
+
+    Proper initialize m_disableNamedArgs variable.
+
+commit dc419f4a5767a0a64e4e9a2446668370528c1343
+Author: Renato Araujo Oliveira Filho <renato.filho@openbossa.org>
+Date:   Mon Aug 24 10:18:45 2009 -0300
+
+    Replaced use of boost::python::wrapper to PySide::wrapper.
+
+commit 48dd9b112e9ea7bc6c95703cdfd5e8fd269b80b4
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Fri Aug 21 15:10:59 2009 -0300
+
+    writes correct full qualified C++ names for classes and other components
+    and also fixes the generated source code file names to follow changes
+    on API Extractor
+
+commit 4fca5b868e8b3d982dfa2ceb95806b2a5b2bb639
+Author: Lauro Neto <lauro.neto@openbossa.org>
+Date:   Wed Aug 19 10:43:18 2009 -0300
+
+    Adding 'make dist' with git-archive
+
+commit 0a3ae6f6ace1da4720ccf9e70a56e279087f0018
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Tue Aug 18 14:23:23 2009 -0300
+
+    Remove libbindgen from project, it doesnt exists yet.
+
+commit d92958a28e7a6a6374aea05f3a5d2abfb4c7d78f
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Tue Aug 18 12:17:39 2009 -0300
+
+    updated BoostPythonGenerator version to 0.2
+
+commit d9adc640d3d8705b5a4aeb431813936c59e11483
+Author: Marcelo Lira <marcelo.lira@openbossa.org>
+Date:   Tue Aug 18 11:05:14 2009 -0300
+
+    removed wrong include statement from DocGenerator
+
+commit 5ec8db293177563c5f25e8f3997df93965ad699b
+Author: Lauro Neto <lauro.neto@openbossa.org>
+Date:   Mon Aug 17 17:57:54 2009 -0300
+
+    Revert "Added files for debian package creation"
+    
+    This reverts commit f90374a93cc7232ae304f1c121bedd383209b2b7.
+
+commit f90374a93cc7232ae304f1c121bedd383209b2b7
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Aug 17 17:37:05 2009 -0300
+
+    Added files for debian package creation
+
+commit cbac30b07bae6c72be5eefd5e47fe83650a16acd
+Author: Hugo Lima <hugo.lima@openbossa.org>
+Date:   Mon Aug 17 17:36:11 2009 -0300
+
+    The genesis...
