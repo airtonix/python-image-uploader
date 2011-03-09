@@ -12,7 +12,7 @@ from PySide import QtCore,QtGui
 
 from . import utils
 from .uploader import UploadManager
-from .widgets import PayloadItemWidget, PayloadListWidget
+from .widgets import PayloadItemWidget, PayloadListWidget, ApplicationHeader
 
 
 __author__ = "Zenobius Jiricek"
@@ -20,7 +20,6 @@ __author_email__ = "airtonix@gmail.com"
 __author_website__ = "airtonix.net"
 __application_name__ = "pyImagePoster"
 __application_version__ = "0.0.2dev"
-
 
 
 #####################
@@ -90,9 +89,14 @@ class MainWindow(QtGui.QMainWindow):
 		self.centralWidget = QtGui.QWidget()
 		self.setCentralWidget(self.centralWidget)
 
-		self.header_row = self.create_header()
-		self.footer_row = self.create_footer()
+		application_logo_path = os.path.join(self.parent.application_path, "resources", "icons", "application_logo.png" )
+		self.parent.logger.info("Creating ApplicationHeader with : logo:%s, title:%s" % (application_logo_path, __application_name__) )
+		self.header_row = ApplicationHeader(
+			application_logo_path = application_logo_path,
+			application_title = __application_name__
+		)
 		self.payload_list = PayloadListWidget(self)
+		self.footer_row = self.create_footer()
 
 		main_layout = QtGui.QGridLayout()
 		main_layout.addWidget( self.header_row, 0,0, 1,0, QtCore.Qt.AlignTop)
@@ -118,31 +122,6 @@ class MainWindow(QtGui.QMainWindow):
 	##
 	## Top Level Application GUI Creation Methods
 	##
-	def create_header(self):
-		"""
-			Interface Construction :
-				Build the Header Area.
-		"""
-		row = QtGui.QWidget()
-
-		layout = QtGui.QHBoxLayout()
-
-		pixmap_header_logo = QtGui.QPixmap( os.path.join(self.parent.application_path, "resources", "icons", "application_logo.png" ) )
-		label_header_logo = QtGui.QLabel()
-		label_header_logo.setPixmap( pixmap_header_logo )
-		layout.addWidget( label_header_logo )
-
-		self.label_application_title = QtGui.QLabel()
-		self.label_application_title.setText( str( self.parent.application_title ) )
-		layout.addWidget( self.label_application_title , QtCore.Qt.AlignLeft)
-
-		row.setLayout(layout)
-		row.setSizePolicy(
-			QtGui.QSizePolicy(
-				QtGui.QSizePolicy.Fixed,
-				QtGui.QSizePolicy.Fixed))
-		return row
-
 
 	def create_footer(self):
 		"""
@@ -206,14 +185,6 @@ class MainWindow(QtGui.QMainWindow):
 #			item = self.payload_view.item(index)
 #			print "inspecting %s for %s" % (item, filename)
 
-	def create_payload_item(self, filename):
-		"""
-			Creates an interface item representing a image to be uploaded
-				@filename : the absolute path the imagefile.
-		"""
-		pixmap_item = QtGui.Pixmap(filename)
-		icon_item = IconDisplayItem( filename , pixmap_item )
-		return icon_item
 
 	#############################
 	##

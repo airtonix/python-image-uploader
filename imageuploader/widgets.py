@@ -1,6 +1,91 @@
 from PySide import QtCore,QtGui
 
+#####################
+##
+## Application Header Row
+##
+class ApplicationLogo( QtGui.QPixmap):
+	_filename = ""
+	
+	def __init__(self,filename):
+		super(ApplicationHeader, self).__init__()
+	
+	def set_image(self,filename):
+		"""
+			Make the QPixmap use the filename for the image.
+				@ filename : absolute pathname to the image
+		"""
+		self._image_path = filename
+		self.logo.load( self._image_path )
 
+	def get_image(self):
+		"""
+			Return the path to the current filename being used.
+		"""
+		return self._filename
+		
+		
+class ApplicationHeader( QtGui.QWidget ):
+	str_required_variable_message = "This Class requires two variables : 'application_title' and 'application_logo_path'"
+
+	def __init__(self, application_title=None, application_logo_path=None):
+		"""
+			Interface Construction :
+				Build the Header Area.
+		"""
+		super(ApplicationHeader, self).__init__()
+		layout = QtGui.QHBoxLayout()
+		try:
+			self.label_application_logo = QtGui.QLabel()
+			
+			self.application_logo = application_logo_path
+			layout.addWidget( self.label_application_logo , QtCore.Qt.AlignLeft)
+		except:
+			raise ValueError, "ApplicationHeader missing argument : application_logo_path.\n %s" % self.str_required_variable_message
+
+		try :
+			self.application_title = application_title
+			self.label_application_title = QtGui.QLabel()
+			self.label_application_title.setText( str( application_title ) )
+			layout.addWidget( self.label_application_title , QtCore.Qt.AlignLeft)
+		except:
+			raise ValueError, "ApplicationHeader missing argument: application_title.\n %s" % self.str_required_variable_message
+
+		self.setLayout(layout)
+		
+#		self.setSizePolicy(
+#			QtGui.QSizePolicy(
+#				QtGui.QSizePolicy.Fixed,
+#				QtGui.QSizePolicy.Fixed))
+
+		
+		###############################
+		## GET/SET for application_title
+		def set_application_title(self, value):
+			self._application_title = value
+			self.label_application_title.setText(value)
+		
+		def get_application_title(self):
+			return self._application_title
+
+		self.application_title = property(get_application_title, set_application_title)
+
+		###############################
+		## GET/SET for application_logo
+		def set_application_logo(self, value):
+			self._application_logo_path = value
+			pixmap_logo = QtGui.QPixmap( self._application_logo_path )
+			self.label_application_logo.setPixmap( pixmap_logo )
+					
+		def get_application_logo(self):
+			"""
+				Returns the path for the current application logo  pixmap
+			"""
+			return self._application_logo_path
+
+		self.application_logo = property(get_application_logo, set_application_logo)
+		
+		
 #####################
 ##
 ## PayloadItem Item Widget
