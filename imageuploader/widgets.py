@@ -131,9 +131,6 @@ class PayloadItemWidget( QtGui.QWidget ):
 	def setText(self, text):
 		self.label.setText(text)
 
-	def setProgress(self, value):
-		self.progressbar.set_step(value)
-
 #	def paintEvent(self,event):
 #		pixmap = self.pixmap_icon
 #		painter = QtGui.QPainter(self)
@@ -146,6 +143,8 @@ class PayloadItemProgressBar(QtGui.QProgressBar):
 		self.step = 0
 
 	def setStep(self, value):
+		if value >= 100 :
+			value = 100
 		self.step = value
 
 	def startTimer(self):
@@ -181,6 +180,7 @@ class PayloadListWidget( QtGui.QWidget ):
 		self.layout = QtGui.QVBoxLayout()
 		self.setLayout( self.layout )
 
+
 	def populate(self, list_items = None):
 		"""
 			Populates the list with interface representations of the
@@ -192,15 +192,27 @@ class PayloadListWidget( QtGui.QWidget ):
 
 				> parent.upload_manager.files(list)
 		"""
+		self.payload = {}
 		if list_items and len(list_items) > 0 :
 			for item in list_items:
 				self.add_item( item )
 
 	def add_item(self, item):
-		self.layout.addWidget( PayloadItemWidget(
+		widget = PayloadItemWidget(
 			text = item,
 			pixmap_uri = item
-		) )
+		)
+		self.payload[item] = widget
+		self.layout.addWidget(widget)
+
+	def get_item(self, filename):
+		if filename in self.payload.keys():
+			return self.payload[ filename ]
+		else:
+			return None
+
+	def count(self):
+		return len(self.payload)
 
 	def items(self):
 		for index in range(self.count()):

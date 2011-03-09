@@ -177,15 +177,6 @@ class MainWindow(QtGui.QMainWindow):
 		for hostname, data in profiles.items() :
 			widget.addItem( os.path.splitext(hostname)[0] )
 
-	def get_payload_item(self, filename = None):
-		found = False
-		item_count = self.payload_view.count()
-		print item_count
-#		for index in range(0, item_count ) :
-#			item = self.payload_view.item(index)
-#			print "inspecting %s for %s" % (item, filename)
-
-
 	#############################
 	##
 	## Interface Callback Methods
@@ -251,7 +242,7 @@ class MainWindow(QtGui.QMainWindow):
 				@name : the file that was uploaded
 		"""
 		self.parent.logger.info("About to request payload delivery for %s from upload manager." % name)
-		item_widget = self.get_payload_item(filename = name)
+		item_widget = self.payload_list.get_item(filename = name)
 
 #		self.update_progress_widget( item_widget.progressbar, 0)
 
@@ -263,7 +254,7 @@ class MainWindow(QtGui.QMainWindow):
 				@name : the file that was uploaded
 				@return_data: data to help construction of the images remote url
 		"""
-		widget_row = self.get_payload_item(filename = name)
+		widget_row = self.payload_list.get_item(filename = name)
 		self.update_progress_widget( item_widget.progressbar, 100)
 		widget_row['widget_remoteurl'].setText(return_data)
 
@@ -275,23 +266,11 @@ class MainWindow(QtGui.QMainWindow):
 				@current : current bytes sent so far
 				@total : total amount of bytes to send.
 		"""
-#		widget_row = self.get_payload_item(filename = name)
-#		if widget_row :
-#			widget_progress = widget_row['widget_progress']
-#			step= int( float(current)/float(total)*100 )
-#			self.update_progress_widget(widget_progress, step)
-#			self.parent.logger.info("Updating Widget %s [%s/%s](%s)" % (widget_progress, current, total, step ))
-
-	def update_progress_widget(self, widget, value):
-		"""
-			Updates the progress bar (@widget), to @value
-				@widget : the progress bar widget to update
-				@value : the value to set between 0 and 100
-		"""
-		if value > 100 :
-			value = 100
-		widget.step = value
-		widget.setValue( value )
+		payload_item = self.payload_list.get_item(filename = name)
+		if payload_item :
+			step= int( float(current)/float(total)*100 )
+			payload_item.progressbar.setStep(step)
+			self.parent.logger.info("Updating Widget %s [%s/%s](%s)" % (widget_progress, current, total, step ))
 
 
 
