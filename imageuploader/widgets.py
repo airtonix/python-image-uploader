@@ -2,32 +2,38 @@ from PySide import QtCore,QtGui
 
 #####################
 ##
-## Application Header Row
+## Application Logo
 ##
 class ApplicationLogo( QtGui.QLabel):
 	_filename = ""
-	
+
 	def __init__(self,filename = None):
-		super(ApplicationHeader, self).__init__()
-		self.logo = QtGui.QPixmap( filename )
-		self.setPixmap( self.logo )
-	
+		super(ApplicationLogo, self).__init__()
+		self.image = filename
+
 	def set_image(self, filename):
 		"""
+			image@Property : Set
 			Make the QPixmap use the filename for the image.
 				@ filename : absolute pathname to the image
 		"""
+		print "Setting Application Icon as : %s" % filename
 		self._image_path = filename
-		self.logo.load( self._image_path )
+		pixmap = QtGui.QPixmap( filename )
+		self.setPixmap( pixmap )
 
 	def get_image(self):
 		"""
+			image@Property : Get
 			Return the path to the current filename being used.
 		"""
 		return self._filename
-		
 	image = property(get_image, set_image)
-	
+
+#####################
+##
+## Application Header Row
+##
 class ApplicationHeader( QtGui.QWidget ):
 	str_required_variable_message = "This Class requires two variables : 'application_title' and 'application_logo_path'"
 
@@ -38,7 +44,9 @@ class ApplicationHeader( QtGui.QWidget ):
 		"""
 		super(ApplicationHeader, self).__init__()
 		layout = QtGui.QHBoxLayout()
-		self.application_logo = ApplicationLogo( filename = )
+		self.application_logo = ApplicationLogo( filename = application_logo_path )
+		layout.addWidget( self.application_logo , QtCore.Qt.AlignLeft)
+
 		try :
 			self.application_title = application_title
 			self.label_application_title = QtGui.QLabel()
@@ -48,19 +56,19 @@ class ApplicationHeader( QtGui.QWidget ):
 			raise ValueError, "ApplicationHeader missing argument: application_title.\n %s" % self.str_required_variable_message
 
 		self.setLayout(layout)
-		
+
 		self.setSizePolicy(
 			QtGui.QSizePolicy(
 				QtGui.QSizePolicy.Fixed,
 				QtGui.QSizePolicy.Fixed))
 
-		
+
 		###############################
 		## GET/SET for application_title
 		def set_application_title(self, value):
 			self._application_title = value
 			self.label_application_title.setText(value)
-		
+
 		def get_application_title(self):
 			return self._application_title
 
@@ -72,7 +80,7 @@ class ApplicationHeader( QtGui.QWidget ):
 			self._application_logo_path = value
 			pixmap_logo = QtGui.QPixmap( self._application_logo_path )
 			self.label_application_logo.setPixmap( pixmap_logo )
-					
+
 		def get_application_logo(self):
 			"""
 				Returns the path for the current application logo  pixmap
@@ -80,8 +88,8 @@ class ApplicationHeader( QtGui.QWidget ):
 			return self._application_logo_path
 
 		self.application_logo = property(get_application_logo, set_application_logo)
-		
-		
+
+
 #####################
 ##
 ## PayloadItem Item Widget
