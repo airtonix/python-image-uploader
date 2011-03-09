@@ -4,13 +4,15 @@ from PySide import QtCore,QtGui
 ##
 ## Application Header Row
 ##
-class ApplicationLogo( QtGui.QPixmap):
+class ApplicationLogo( QtGui.QLabel):
 	_filename = ""
 	
-	def __init__(self,filename):
+	def __init__(self,filename = None):
 		super(ApplicationHeader, self).__init__()
+		self.logo = QtGui.QPixmap( filename )
+		self.setPixmap( self.logo )
 	
-	def set_image(self,filename):
+	def set_image(self, filename):
 		"""
 			Make the QPixmap use the filename for the image.
 				@ filename : absolute pathname to the image
@@ -24,7 +26,8 @@ class ApplicationLogo( QtGui.QPixmap):
 		"""
 		return self._filename
 		
-		
+	image = property(get_image, set_image)
+	
 class ApplicationHeader( QtGui.QWidget ):
 	str_required_variable_message = "This Class requires two variables : 'application_title' and 'application_logo_path'"
 
@@ -35,14 +38,7 @@ class ApplicationHeader( QtGui.QWidget ):
 		"""
 		super(ApplicationHeader, self).__init__()
 		layout = QtGui.QHBoxLayout()
-		try:
-			self.label_application_logo = QtGui.QLabel()
-			
-			self.application_logo = application_logo_path
-			layout.addWidget( self.label_application_logo , QtCore.Qt.AlignLeft)
-		except:
-			raise ValueError, "ApplicationHeader missing argument : application_logo_path.\n %s" % self.str_required_variable_message
-
+		self.application_logo = ApplicationLogo( filename = )
 		try :
 			self.application_title = application_title
 			self.label_application_title = QtGui.QLabel()
@@ -53,10 +49,10 @@ class ApplicationHeader( QtGui.QWidget ):
 
 		self.setLayout(layout)
 		
-#		self.setSizePolicy(
-#			QtGui.QSizePolicy(
-#				QtGui.QSizePolicy.Fixed,
-#				QtGui.QSizePolicy.Fixed))
+		self.setSizePolicy(
+			QtGui.QSizePolicy(
+				QtGui.QSizePolicy.Fixed,
+				QtGui.QSizePolicy.Fixed))
 
 		
 		###############################
