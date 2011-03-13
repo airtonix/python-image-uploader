@@ -13,7 +13,7 @@ from PySide import QtCore,QtGui
 from . import utils
 from .uploader import UploadManager
 from .widgets import PayloadItemWidget, PayloadListWidget, ApplicationHeader
-
+from .tags import TagManager
 
 __author__ = "Zenobius Jiricek"
 __author_email__ = "airtonix@gmail.com"
@@ -40,7 +40,7 @@ log_file.setFormatter(log_formatter)
 logger = logging.getLogger(__application_name__)
 logger.addHandler(log_file)
 logger.setLevel(logging.INFO)
-
+logger.info("%s%s%s" % ("="*32, "[ Begin New Application Session ]", "="*32))
 logger.info( "application_path = %s" % application_path)
 
 
@@ -65,6 +65,7 @@ class ImageUploader(QtGui.QApplication):
 		self.configuration_path = configuration_path
 
 		self.logger = logger
+		self.tag_manager = TagManager(self)
 
 		self.upload_manager = UploadManager(
 			parent = self,
@@ -203,16 +204,13 @@ class MainWindow(QtGui.QMainWindow):
 			start/deliver/begin button.
 			Begins the delivery of payload items to designated remote host
 		"""
-#		for item in self.payload_view.items():
-#			widget = item['widget_progress']
-#			if widget.timer.isActive():
-#				self.parent.logger.info("Stopping Widget %s.timer" % widget)
-#				widget.timer.stop()
-##				widget.button.setText('Start')
+#		for item in self.payload_list.items():
+#			if item.progressbar.timer.isActive():
+#				self.parent.logger.info("Stopping Widget %s.timer" % item.progressbar)
+#				item.progressbar.timer.stop()
 #			else:
-#				self.logger.info("Starting Widget %s.timer" % widget)
-#				widget.timer.start(10, widget)
-##				widget.button.setText('Stop')
+#				self.parent.logger.info("Starting Widget %s.timer" % item.progressbar)
+#				item.progressbar.startTimer()
 
 		self.parent.upload_manager.deliver_payload(
 			callback_item_beforestart = self.callback_payload_item_beforestart,
@@ -241,10 +239,9 @@ class MainWindow(QtGui.QMainWindow):
 			Called whenever an image is about to begin uploading.
 				@name : the file that was uploaded
 		"""
-		self.parent.logger.info("About to request payload delivery for %s from upload manager." % name)
-		item_widget = self.payload_list.get_item(filename = name)
-
-#		self.update_progress_widget( item_widget.progressbar, 0)
+		self.parent.logger.info("callback_payload_item_beforestart : %s." % name)
+		payload_item = self.payload_list.get_item(filename = name)
+		payload_item.setStep(0)
 
 	def callback_payload_item_completed(self, name, return_data):
 		"""
@@ -254,11 +251,12 @@ class MainWindow(QtGui.QMainWindow):
 				@name : the file that was uploaded
 				@return_data: data to help construction of the images remote url
 		"""
-		widget_row = self.payload_list.get_item(filename = name)
-		self.update_progress_widget( item_widget.progressbar, 100)
-		widget_row['widget_remoteurl'].setText(return_data)
+		self.parent.logger.info("callback_payload_item_completed : %s." % name)
+		payload_item = self.payload_list.get_item(filename = name)
+		payload_item.setStep(100)
+		payload_item.setText(return_data)
 
-	def callback_payload_item_progress(self, name, current, total):
+	def callback_payload_item_progress(self, *args):
 		"""
 			Called whenever a portion of an image has been sent to the remote
 			server.
@@ -266,13 +264,14 @@ class MainWindow(QtGui.QMainWindow):
 				@current : current bytes sent so far
 				@total : total amount of bytes to send.
 		"""
-		payload_item = self.payload_list.get_item(filename = name)
-		if payload_item :
-			step= int( float(current)/float(total)*100 )
-			payload_item.progressbar.setStep(step)
-			self.parent.logger.info("Updating Widget %s [%s/%s](%s)" % (widget_progress, current, total, step ))
+		form_object, current, total = args
+		if hasattr(form_object, "filename") :
+			payload_item = self.payload_list.get_item(filename = form_object.filename)
 
-
+			if payload_item :
+				step= int( float(current)/float(total)*100 )
+				payload_item.set_progress( current )
+				self.parent.logger.info("callback_payload_item_progress : > %s [ %s ] [%s/%s]" % (form_object.filename, step, current, total ))
 
 #####################
 ##

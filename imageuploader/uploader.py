@@ -8,15 +8,12 @@ import logging
 import urllib2
 import ConfigParser
 
+from .utils import merge
 
 class UploadManager:
 	profiles = {}
 	files = []
-	template_tags = {
-		"username"		: lambda x,y: ''.join (random.choice (string.letters) for ii in range (len(y) + 1)),
-		"filename"		:	lambda x,y: os.path.abspath(x),
-		"title"				: lambda x,y: os.path.split(x)[1],
-	}
+
 	target_host = None
 
 	def __init__(self, parent = None, files = None):
@@ -36,25 +33,8 @@ class UploadManager:
 				self.logger.info("Default Config is : %s" % data.get('host', 'name') )
 				break
 
-
-	####################
-	## Tools
-	def fill_template (self,query,file):
-		"""
-			Replaces placeholders with evaluated function results
-		"""
-		output = None
-		tags = self.template_tags
-		query = re.sub("\$","",query)
-		if query in tags.keys() :
-			output = tags[query](file,query)
-			self.logger.info("Replacing template tag [%s] with [%s]" % (query, output) )
-
-		return output
-
 	####################
 	## Methods
-
 	def load_config(self):
 		config_path = self.parent.configuration_path
 		for config_file in os.listdir(config_path):
@@ -83,21 +63,11 @@ class UploadManager:
 
 		return output
 
-	def progress_callback(self, param, current, total):
-		"""
-			Used to update the progress bars,
-			usually called by the delegated object, which is the upload-manager
-		"""
-		if hasattr(param,'name') and param.name =="image" and self.item_process_callback :
-			if hasattr(param, "filename"):
-				self.logger.info("Uploading [ %s ] to %s [ %s/%s ]" % (param.filename, self.target_host.get('host', 'host_url'), current, total))
-				self.item_process_callback(param.filename,current, total)
-
 	def deliver_payload(self, callback_item_beforestart=None, callback_item_progress = None, callback_item_completed = None):
 		"""
 			Begins the upload process
 		"""
-		self.logger.info("Beging payload delivery to remote host: %s, payload-items: %s" % (
+		self.logger.info("Beging payload delivery to remote host: %s, payload-items: %s"  % (
 				self.target_host.get('host', 'host_url'),
 				str(self.files)
 			)
@@ -108,8 +78,17 @@ class UploadManager:
 		self.callback_item_completed = callback_item_completed
 
 		for image in self.files :
-			callback_item_beforestart( image )
-			output = self.upload_file( image )
+
+			try:
+				self.callback_item_beforestart( image )
+			except:
+				pass
+
+			try:
+				output = self.upload_file( image )
+			except:
+				pass
+
 			try:
 				self.callback_item_completed(image, output)
 			except:
@@ -123,43 +102,49 @@ class UploadManager:
 		upload_url = target.get("host","upload_url")
 		data = target._sections["form"].copy()
 		imagefield_name = target.get("host","imagefield")
-		result_remote_url_regex = target.get("host","needle")
+		result_remote_url_regex = re.compile(target.get("host","needle"))
 		result_remote_url = target.get("host", "show_url")
 
-		self.logger.info("Beginning upload of [ %s ] to [ %s ]" % (file_path,self.target_host))
+		self.logger.info("Processing Template Tags")
+		meta = {
+			"filepath"	: file_path,
+			"length"		: target.get("host", "random_length"),
+		}
 
 		for key,value in data.iteritems():
+			new_value = None
 			if "$" in value :
-				new_value = self.fill_template(value, file_path)
-				if(new_value==None):
-					self.logger.error("Could not find template tag : %s" % value)
-				else:
+				new_value = self.parent.tag_manager.get_tag( **merge(meta, { "tag": value}) )
+				if new_value :
+
 					data[key] = new_value
+
+		self.logger.info("Beginning upload of [ %s ] to [ %s ]" % (file_path,upload_url) )
 
 		data[imagefield_name] = open(file_path,"rb")
 
 		self.logger.info("Uploading with formdata [ %s ]" % data )
-		datagen, headers = poster.encode.multipart_encode(data)#, cb = self.callback_item_progress)
+		datagen, headers = poster.encode.multipart_encode(data, cb = self.callback_item_progress)
 
-		self.logger.info("Building request object")
+		self.logger.info("Building request object : data\n %s")
 		request = urllib2.Request(upload_url, datagen, headers)
 
 		self.logger.info("Sending formdata")
 		response = urllib2.urlopen(request).read()
 
 		self.logger.info("Searching response for imageID")
-		match_obj = re.search( result_remote_url_regex, response )
+		match_obj = result_remote_url_regex.search( response )
 
 		if match_obj != None :
 			image_id = match_obj.group('image_id')
 			if image_id != None :
-				self.logger.info("imageID : %s" % image_id)
 				url = result_remote_url % image_id
+				self.logger.info("imageID : %s" % image_id)
+				self.logger.info("remoteurl : %s" % url)
 				return url
 			else :
-				self.logger.error("There was an error uploading the image.")
-				self.logger.warn("Page returned data, but could not find image_id.")
-				self.logger.debug(match_obj.groups())
+				self.logger.error("There was an error uploading the image. Page returned data, but could not find image_id.")
+				self.logger.info(match_obj.groups())
 		else :
 			self.logger.error("There was an error uploading the image.")
 			self.logger.info("Did not return match id")
