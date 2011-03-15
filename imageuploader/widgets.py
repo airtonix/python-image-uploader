@@ -5,11 +5,16 @@ from PySide import QtCore,QtGui
 ## Application Logo
 ##
 class ApplicationLogo( QtGui.QLabel):
+	"""
+		Style IDs
+			#application-logo
+	"""
 	_filename = ""
 
 	def __init__(self,filename = None):
 		super(ApplicationLogo, self).__init__()
 		self.image = filename
+		self.setObjectName('application-logo')
 
 	def set_image(self, filename):
 		"""
@@ -34,7 +39,13 @@ class ApplicationLogo( QtGui.QLabel):
 ##
 ## Application Header Row
 ##
-class ApplicationHeader( QtGui.QWidget ):
+class ApplicationHeader( QtGui.QFrame ):
+	"""
+		Style IDs
+			#header
+			#header-inner
+			#application-title
+	"""
 	str_required_variable_message = "This Class requires two variables : 'application_title' and 'application_logo_path'"
 
 	def __init__(self, application_title=None, application_logo_path=None):
@@ -43,15 +54,18 @@ class ApplicationHeader( QtGui.QWidget ):
 				Build the Header Area.
 		"""
 		super(ApplicationHeader, self).__init__()
+
+		self.setObjectName('header')
 		layout = QtGui.QHBoxLayout()
+		layout.setObjectName('header-inner')
 		self.application_logo = ApplicationLogo( filename = application_logo_path )
 		layout.addWidget( self.application_logo , QtCore.Qt.AlignLeft)
 
+		self.label_application_title = QtGui.QLabel()
+		self.label_application_title.setObjectName('application-title')
+		layout.addWidget( self.label_application_title , QtCore.Qt.AlignLeft)
 		try :
-			self.application_title = application_title
-			self.label_application_title = QtGui.QLabel()
 			self.label_application_title.setText( str( application_title ) )
-			layout.addWidget( self.label_application_title , QtCore.Qt.AlignLeft)
 		except:
 			raise ValueError, "ApplicationHeader missing argument: application_title.\n %s" % self.str_required_variable_message
 
@@ -94,33 +108,65 @@ class ApplicationHeader( QtGui.QWidget ):
 ##
 ## PayloadItem Item Widget
 ##
-class PayloadItemWidget( QtGui.QWidget ):
-	timerSignal = QtCore.Signal()
-
+class PayloadItemWidget( QtGui.QFrame ):
+	"""
+		Style IDs
+			#payload-item
+			#payload-item-inner
+			#payload-item-label
+			#payload-item-label-inner
+			#payload-item-label-filename
+			#payload-item-label-remote-url
+	"""
 	def __init__(self, text=None, pixmap_uri=None):
 		super(PayloadItemWidget, self).__init__()
+		self.setObjectName('payload-item')
 		self.layout = QtGui.QHBoxLayout()
+		self.layout.setObjectName('payload-item-inner')
+
 		self.icon = QtGui.QLabel()
 		self.setIcon( pixmap_uri )
 		self.layout.addWidget( self.icon )
 
-		row_label_container = QtGui.QWidget()
+		row_label_container = QtGui.QFrame()
+		row_label_container.setObjectName('payload-item-label')
 		row_label_box = QtGui.QVBoxLayout()
+		row_label_box.setObjectName('payload-item-label-inner')
 
-		self.label = QtGui.QLabel()
-		self.label.setText(text)
-		row_label_box.addWidget( self.label )
+		self.label_filename = QtGui.QLabel()
+		self.label_filename.setObjectName('payload-item-label-filename')
+		self.label_filename.setText(text)
+		row_label_box.addWidget( self.label_filename )
 
 		self.progressbar = PayloadItemProgressBar()
 		self.progressbar.setFile(filename = pixmap_uri)
 		row_label_box.addWidget( self.progressbar )
 		row_label_container.setLayout( row_label_box )
 
+		self.label_url = QtGui.QLabel()
+		self.label_url.setObjectName('payload-item-label-remote-url')
+		self.label_url.setText("")
+		self.label_url.setOpenExternalLinks(True)
+		row_label_box.addWidget( self.label_url )
+
 		self.layout.addWidget( row_label_container )
 		self.setLayout( self.layout )
 
 	def progress(self,value):
 		self.progressbar.progressbar.setValue(value)
+
+	def get_label_name(self):
+		return self.label_filename.text()
+
+	def set_label_name(self, value):
+		self.label_filename.setText(value)
+
+	def get_label_url(self):
+		return self.label_url.text()
+
+	def set_label_url(self, value):
+		self.label_url.setText("<a href='%(url)s'>%(url)s</a>" % { "url":value })
+
 
 	def setIcon(self, uri):
 		pixmap = QtGui.QPixmap( uri )
@@ -136,19 +182,26 @@ class PayloadItemWidget( QtGui.QWidget ):
 			value = self.progressbar.progressbar.maximum()
 		self.progressbar.progressbar.setValue(value)
 
-	def setText(self, text):
-		self.label.setText(text)
 
-class PayloadItemProgressBar(QtGui.QWidget):
+class PayloadItemProgressBar(QtGui.QFrame):
+	"""
+		Style IDS
+			#payload-item-progress
+			#payload-item-progress-inner
+			#payload-item-progress-bar
+	"""
 	def __init__(self, *args, **kwargs):
 		super(PayloadItemProgressBar, self).__init__(*args, **kwargs)
-		layout = QtGui.QHBoxLayout()
+		self.setObjectName('payload-item-progress')
+		self.layout = QtGui.QHBoxLayout()
+		self.layout.setObjectName('payload-item-progress-inner')
 		self.step = 0
 		self.progressbar = QtGui.QProgressBar()
-		layout.addWidget(self.progressbar)
-		self.button = QtGui.QPushButton("Start")
-		layout.addWidget(self.button)
-		self.setLayout(layout)
+		self.progressbar.setObjectName('payload-item-progress-bar')
+		self.layout.addWidget(self.progressbar)
+#		self.button = QtGui.QPushButton("Start")
+#		layout.addWidget(self.button)
+		self.setLayout(self.layout)
 
 	def setFile(self, filename):
 		filesize = os.path.getsize(filename)
@@ -162,16 +215,21 @@ class PayloadItemProgressBar(QtGui.QWidget):
 ##  Payload Item List View
 ##   subclassed QWidgetList
 
-class PayloadListWidget( QtGui.QWidget ):
+class PayloadListWidget( QtGui.QFrame ):
+	"""
+		Stylesheet IDs
+			payload-list
+	"""
 	def __init__(self,*args, **kwargs):
 		super(PayloadListWidget, self).__init__()
-
+		self.setObjectName('payload-list')
 		self.setSizePolicy(
 			QtGui.QSizePolicy(
 				QtGui.QSizePolicy.Expanding,
 				QtGui.QSizePolicy.Expanding))
 
 		self.layout = QtGui.QVBoxLayout()
+		self.layout.setObjectName('payload-list-inner')
 		self.setLayout( self.layout )
 
 

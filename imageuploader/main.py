@@ -61,8 +61,13 @@ class ImageUploader(QtGui.QApplication):
 		self.arguments = parser.parse_args()
 
 		self.application_path = application_path
+		self.resource_path = os.path.join(self.application_path, "resources")
+
 		self.application_title = __application_name__
 		self.configuration_path = configuration_path
+		self.stylesheets = [ os.path.join(self.resource_path,"styles",filename) for filename in os.listdir( os.path.join( self.resource_path, "styles") )]
+
+
 
 		self.logger = logger
 		self.tag_manager = TagManager(self)
@@ -74,30 +79,41 @@ class ImageUploader(QtGui.QApplication):
 
 		self.mainWindow = MainWindow(self)
 		self.mainWindow.setWindowTitle( __application_name__ )
-
 		self.mainWindow.statusBar().showMessage("Ready")
-
 
 #####################
 ##
 ## Top Level Interface Elements
 ##
 class MainWindow(QtGui.QMainWindow):
+	"""
+		Main Application Window
+			Themeing Notes
+			--------------
+			  + look for the setObjectName(string_name), they let you know what
+			  objects can be styled by id css syntax
+	"""
+
 	def __init__(self, parent=None, *args):
 		super(MainWindow, self).__init__(*args)
 		self.parent = parent
 
-		self.centralWidget = QtGui.QWidget()
+		self.current_style = open( self.parent.stylesheets[0] )
+		self.centralWidget = QtGui.QFrame()
+		self.centralWidget.setObjectName('canvas')
+		self.centralWidget.setStyleSheet( self.current_style.read() )
 		self.setCentralWidget(self.centralWidget)
 
-		application_logo_path = os.path.join(self.parent.application_path, "resources", "icons", "application_logo.png" )
+		application_logo_path = os.path.join(self.parent.resource_path, "icons", "application_logo.png" )
 		self.parent.logger.info("Creating ApplicationHeader with : logo:%s, title:%s" % (application_logo_path, __application_name__) )
+
 		self.header_row = ApplicationHeader(
 			application_logo_path = application_logo_path,
 			application_title = __application_name__
 		)
 		self.payload_list = PayloadListWidget(self)
 		self.footer_row = self.create_footer()
+
 
 		main_layout = QtGui.QGridLayout()
 		main_layout.addWidget( self.header_row, 0,0, 1,0, QtCore.Qt.AlignTop)
@@ -130,8 +146,9 @@ class MainWindow(QtGui.QMainWindow):
 				Build the Footer Area.
 		"""
 		row = QtGui.QWidget()
+		row.setObjectName('footer')
 		layout = QtGui.QHBoxLayout()
-
+		layout.setObjectName('footer-inner')
 		# Combo drop down menu allowing the user to change the target remote host
 		self.combo_host_chooser = QtGui.QComboBox(self)
 		self.populate_host_chooser(self.combo_host_chooser, self.parent.upload_manager.profiles )
@@ -140,16 +157,20 @@ class MainWindow(QtGui.QMainWindow):
 
 		## button to spawn the configuration interface
 		pixmap_config_icon = QtGui.QIcon( os.path.join(self.parent.application_path, "resources", "icons", "config.png" ) )
+
 		button_config = QtGui.QPushButton()
 		button_config.setFlat(True)
 		button_config.setFixedSize(32,32)
 		button_config.setIcon(pixmap_config_icon )
+		button_config.setObjectName('configuration-button')
 		self.connect(button_config, QtCore.SIGNAL('clicked()'), self.button_config_clicked )
 		layout.addWidget(button_config, stretch = 0)
 
 		# button to start the upload process
 		pixmap_start_delivery_icon = QtGui.QIcon( os.path.join(self.parent.application_path, "resources", "icons", "start_delivery.png" ) )
+
 		button_start_delivery = QtGui.QPushButton()
+		button_start_delivery.setObjectName('deliver-payload-button')
 		button_start_delivery.setFlat(True)
 		button_start_delivery.setFixedSize(32,32)
 		button_start_delivery.setIcon(pixmap_start_delivery_icon )
@@ -241,7 +262,7 @@ class MainWindow(QtGui.QMainWindow):
 		"""
 		self.parent.logger.info("callback_payload_item_beforestart : %s." % name)
 		payload_item = self.payload_list.get_item(filename = name)
-		payload_item.setStep(0)
+		payload_item.set_progress(0)
 
 	def callback_payload_item_completed(self, name, return_data):
 		"""
@@ -251,10 +272,15 @@ class MainWindow(QtGui.QMainWindow):
 				@name : the file that was uploaded
 				@return_data: data to help construction of the images remote url
 		"""
-		self.parent.logger.info("callback_payload_item_completed : %s." % name)
+		self.parent.logger.info("callback_payload_item_completed : %s : %s" % (name, return_data))
 		payload_item = self.payload_list.get_item(filename = name)
-		payload_item.setStep(100)
-		payload_item.setText(return_data)
+		payload_item.set_label_url( "%s" % return_data )
+
+		if payload_item :
+			self.parent.logger.info(">> : %s " %  payload_item.get_label_url() )
+			payload_item.set_label_url( return_data )
+		else :
+			print "Could not find item"
 
 	def callback_payload_item_progress(self, *args):
 		"""
@@ -267,7 +293,6 @@ class MainWindow(QtGui.QMainWindow):
 		form_object, current, total = args
 		if hasattr(form_object, "filename") :
 			payload_item = self.payload_list.get_item(filename = form_object.filename)
-
 			if payload_item :
 				step= int( float(current)/float(total)*100 )
 				payload_item.set_progress( current )

@@ -1,0 +1,39 @@
+QWidget#payload-item{
+     margin:0;
+     padding:0;
+      background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                  stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                  stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+      border-radius:5px;
+      border-bottom:1px solid #ccc;
+      border-right:1px solid #ccc;
+      border-top:1px solid #eee;
+      border-left:1px solid #eee;
+}
+QWidget#payload-list{
+
+  color:#444;
+  border-radius:5px;
+}
+
+#payload-item-progress{}
+#payload-item-progress-inner{}
+#payload-item-progress-bar{
+ }
+#payload-item-progress-bar::chunk {
+     width: 20px;
+ }
+#payload-item{}
+#payload-item-inner{}
+#payload-item-label{}
+#payload-item-label-inner{}
+#payload-item-label-filename{}
+#payload-item-label-remote-url{}
+QWidget#header{
+}
+QWidget#header-inner{
+  border-bottom:1px solid #333;
+}
+#application-title{}
+#application-logo{}
+
